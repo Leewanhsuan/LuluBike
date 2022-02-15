@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { fetchRoutesData } from './Service';
+import Cards from './Cards';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { routeStatus } from './redux/routeStatus';
-import { routeStatusData } from './redux/routeStatus';
 
 const Sidebar = () => {
     const [routes, setRoutes] = useState([]);
+    const [route, setRoute] = useState([]);
     const [selectedCity, setSelectedCity] = useState('城市');
     const cityList = [
         {
@@ -103,15 +102,13 @@ const Sidebar = () => {
         display: flex;
         justify-content: center;
         z-index: 5;
-        width: ;
-        background-color: gray;
     `;
-    const SideTitleWrapper = styled.div`
-        width: 80%;
+    const SideBarWrapper = styled.div`
+        width: 30%;
         height: 56px;
-        position: absolute;
+        position: fixed;
         top: 0px;
-        z-index: 10;
+        z-index: 30;
         background: #ffffff;
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 0px 0px 9px 9px;
@@ -141,7 +138,6 @@ const Sidebar = () => {
     const CitySelection = styled.select`
         align-items: center;
         padding: 12px 16px;
-        position: relative;
         width: 35%;
         height: 48px;
         background: #ffffff;
@@ -152,14 +148,13 @@ const Sidebar = () => {
     const RouteSelection = styled.select`
         align-items: center;
         padding: 12px 16px;
-        position: relative;
-        width: 45%;
+        width: 55%;
         height: 48px;
-        left: 5%;
         background: #ffffff;
         box-shadow: 0px 3px 8px rgba(75, 75, 75, 0.3);
         border-radius: 27px;
         border: 0px;
+        margin-left: 20px;
         option {
             color: black;
             background: white;
@@ -173,9 +168,9 @@ const Sidebar = () => {
     const SelectionSection = styled.div`
         display: flex;
         flex-direction: row;
-        position: relative;
+        position: absolute;
         top: 80px;
-        left: 7%;
+        width: 80%;
         margin: auto 0;
         option {
             color: black;
@@ -202,37 +197,38 @@ const Sidebar = () => {
 
     const setFilteredRoute = (event) => {
         console.log(event.target.value);
-        let list = routes[event.target.value];
+        setRoute(routes[event.target.value]);
     };
 
     console.log(selectedCity, 'selectedCity');
 
     return (
         <SideWrapper>
-            <SideTitleWrapper>
+            <SideBarWrapper>
                 <SideTitleLogo src={require(`../src/image/lululogo.png`)} alt="LuluLogo" />
                 <SideTitle>自行車與周邊美食平台</SideTitle>
-                <SelectionSection>
-                    <CitySelection onChange={(event) => setCityState(event)}>
-                        <option value={selectedCity}>{selectedCity}</option>
-                        {cityList.map((option, index) => (
-                            <option value={option.value} key={index}>
-                                {option.label}
-                            </option>
-                        ))}
-                    </CitySelection>
-                    <RouteSelection onChange={(event) => setFilteredRoute(event)}>
-                        <option value="" hidden>
-                            自行車道
+            </SideBarWrapper>
+            <SelectionSection>
+                <CitySelection onChange={(event) => setCityState(event)}>
+                    <option value={selectedCity}>{selectedCity}</option>
+                    {cityList.map((option, index) => (
+                        <option value={option.value} key={index}>
+                            {option.label}
                         </option>
-                        {routes.map((route, index) => (
-                            <option value={index} key={index}>
-                                {route.item.RouteName}
-                            </option>
-                        ))}
-                    </RouteSelection>
-                </SelectionSection>
-            </SideTitleWrapper>
+                    ))}
+                </CitySelection>
+                <RouteSelection onChange={(event) => setFilteredRoute(event)}>
+                    <option value="" hidden>
+                        自行車道
+                    </option>
+                    {routes.map((route, index) => (
+                        <option value={index} key={index}>
+                            {route.item.RouteName}
+                        </option>
+                    ))}
+                </RouteSelection>
+            </SelectionSection>
+            <Cards data={route} />
         </SideWrapper>
     );
 };
