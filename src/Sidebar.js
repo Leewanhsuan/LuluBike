@@ -3,11 +3,11 @@ import { fetchRoutesData } from './Service';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { routeStatus } from './redux/routeStatus';
+import { routeStatusData } from './redux/routeStatus';
 
 const Sidebar = () => {
     const [routes, setRoutes] = useState([]);
     const [selectedCity, setSelectedCity] = useState('城市');
-    // const dispatch = useDispatch();
     const cityList = [
         {
             label: '臺北市',
@@ -200,8 +200,9 @@ const Sidebar = () => {
         });
     };
 
-    const setFilteredRoute = (product) => {
-        console.log(product);
+    const setFilteredRoute = (event) => {
+        console.log(event.target.value);
+        let list = routes[event.target.value];
     };
 
     console.log(selectedCity, 'selectedCity');
@@ -225,7 +226,7 @@ const Sidebar = () => {
                             自行車道
                         </option>
                         {routes.map((route, index) => (
-                            <option value={route} key={index}>
+                            <option value={index} key={index}>
                                 {route.item.RouteName}
                             </option>
                         ))}

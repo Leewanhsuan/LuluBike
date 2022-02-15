@@ -15,7 +15,7 @@ export const routeStatus = createSlice({
     },
 
     reducers: {
-        RouteStatusData: (state, action) => {
+        routeStatusData: (state, action) => {
             return {
                 ...state,
                 RouteStatusData: action.payload,
@@ -24,6 +24,6 @@ export const routeStatus = createSlice({
     },
 });
 
-export const { RouteStatusData } = routeStatus.actions;
+export const { routeStatusData } = routeStatus.actions;
 
 export default routeStatus.reducer;

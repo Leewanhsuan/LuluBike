@@ -19,7 +19,7 @@ const RouteCard = () => {
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 9px;
         top: 20px;
-        left: 10%;
+        left: 20%;
         padding-top: 20px;
         z-index: 15;
     `;

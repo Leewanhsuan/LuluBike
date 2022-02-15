@@ -20,14 +20,13 @@ export const GetAuthorizationHeader = () => {
  */
 
 export const fetchRoutesData = (city) => {
-    const myHeaders = new Headers();
-    myHeaders.append('Authorization', GetAuthorizationHeader());
+    var myHeaders = new Headers();
     const cityURL = `https://ptx.transportdata.tw/MOTC/v2/Cycling/Shape/` + city + `?`;
 
     var requestOptions = {
         method: 'GET',
         redirect: 'follow',
-        headers: myHeaders,
+        headers: GetAuthorizationHeader(),
     };
 
     return fetch(cityURL, requestOptions)
