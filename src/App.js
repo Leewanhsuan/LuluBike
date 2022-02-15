@@ -6,8 +6,8 @@ import Sidebar from './Sidebar';
 function App() {
     return (
         <>
-            <Sidebar />
             <MapBox />
+            <Sidebar />
         </>
     );
 }

@@ -1,0 +1,8 @@
+.Map {
+    position: relative;
+    width: 100vw;
+    height: 1200px;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+}
