@@ -1,12 +1,14 @@
 import './App.css';
 import MapBox from './MapBox';
+import RouteCard from './RouteCards';
 import Sidebar from './Sidebar';
 
 function App() {
     return (
         <>
             <Sidebar />
-            <MapBox />
+            <RouteCard />
+            {/* <MapBox /> */}
         </>
     );
 }
