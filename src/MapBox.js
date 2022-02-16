@@ -6,10 +6,11 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLocationPin, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { useState, useMemo } from 'react';
-import { fetchNearByStation } from './Service';
+import { fetchNearByStation, fetchAvailableBike } from './Service';
 
 const MapBox = () => {
     const [stationData, setStationData] = useState([]);
+    const [availableStationData, setAvailableStationData] = useState([]);
     const [view, setView] = useState({
         longitude: 121.5034981,
         latitude: 25.0107806,
@@ -58,8 +59,14 @@ const MapBox = () => {
         left: -25px;
     `;
 
-    const BikeStationName = styled.p``;
-    const BikeStationAddress = styled.p``;
+    const BikeStationName = styled.p`
+        font-size: 16px;
+        color: #131678;
+    `;
+    const BikeStationAddress = styled.p`
+        font-size: 12px;
+        color: #686ffc;
+    `;
     const BikeStationBikeStatus = styled.p``;
 
     const MAPBOX_TOKEN = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
@@ -91,6 +98,9 @@ const MapBox = () => {
     const getNearByStationData = async (longitude, latitude) => {
         const nearByStation = await fetchNearByStation(longitude, latitude);
         setStationData(nearByStation);
+        const availableStation = await fetchAvailableBike(longitude, latitude);
+        console.log(availableStation, 'availableStation');
+        setAvailableStationData(availableStation);
     };
 
     return (
@@ -130,7 +140,6 @@ const MapBox = () => {
                     </Marker>
                 }
             </InteractiveMap>
-
             <Location onClick={() => handleSetLocation()}>
                 <FontAwesomeIcon icon={faLocationArrow} style={{ color: 'white' }} />
             </Location>

@@ -58,5 +58,26 @@ export const fetchNearByStation = (longitude, latitude) => {
 };
 
 /**
+ * 取得定位周邊自行車站車況
+ */
+export const fetchAvailableBike = (longitude, latitude) => {
+    const StationNearbyURL = `https://ptx.transportdata.tw/MOTC/v2/Bike/Availability/NearBy?$spatialFilter=nearby(${latitude},${longitude},500)`;
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: GetAuthorizationHeader(),
+    };
+
+    return fetch(StationNearbyURL, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result, 'result');
+            return result;
+        })
+        .catch((error) => console.log('error', error));
+};
+
+/**
  * 取得周邊美食資料
  */
