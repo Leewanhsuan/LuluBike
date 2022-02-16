@@ -196,11 +196,8 @@ const Sidebar = () => {
     };
 
     const setFilteredRoute = (event) => {
-        console.log(event.target.value);
         setRoute(routes[event.target.value]);
     };
-
-    console.log(selectedCity, 'selectedCity');
 
     return (
         <SideWrapper>
