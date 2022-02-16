@@ -20,7 +20,6 @@ export const GetAuthorizationHeader = () => {
  */
 
 export const fetchRoutesData = (city) => {
-    var myHeaders = new Headers();
     const cityURL = `https://ptx.transportdata.tw/MOTC/v2/Cycling/Shape/` + city + `?`;
 
     var requestOptions = {
@@ -36,3 +35,28 @@ export const fetchRoutesData = (city) => {
         })
         .catch((error) => console.log('error', error));
 };
+
+/**
+ * 取得定位周邊自行車站
+ */
+export const fetchNearByStation = (longitude, latitude) => {
+    const StationNearbyURL = `https://ptx.transportdata.tw/MOTC/v2/Bike/Station/NearBy?$spatialFilter=nearby(${latitude},${longitude},500)`;
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: GetAuthorizationHeader(),
+    };
+
+    return fetch(StationNearbyURL, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result, 'result');
+            return result;
+        })
+        .catch((error) => console.log('error', error));
+};
+
+/**
+ * 取得周邊美食資料
+ */
