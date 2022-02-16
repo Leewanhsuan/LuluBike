@@ -81,3 +81,20 @@ export const fetchAvailableBike = (longitude, latitude) => {
 /**
  * 取得周邊美食資料
  */
+export const fetchNearbyFood = (longitude, latitude) => {
+    const StationNearbyURL = `https://ptx.transportdata.tw/MOTC/v2/Tourism/Restaurant?$top=30&$spatialFilter=nearby(${latitude}%2C${longitude}4%2C%201000)&$format=JSON`;
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+        headers: GetAuthorizationHeader(),
+    };
+
+    return fetch(StationNearbyURL, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result, 'result');
+            return result;
+        })
+        .catch((error) => console.log('error', error));
+};

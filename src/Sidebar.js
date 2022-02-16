@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { fetchRoutesData } from './Service';
+import { fetchNearbyFood, fetchRoutesData } from './Service';
 import Cards from './Cards';
 import { useEffect, useState } from 'react';
 
@@ -187,6 +187,7 @@ const Sidebar = () => {
             return value.value === event.target.value;
         });
         setSelectedCity(cityName[0].label);
+
         fetchRoutesData(event.target.value).then((result) => {
             result = result.map((item) => {
                 return { item };
@@ -195,8 +196,23 @@ const Sidebar = () => {
         });
     };
 
-    const setFilteredRoute = (event) => {
+    const setFilteredRoute = async (event) => {
         setRoute(routes[event.target.value]);
+        const foodData = await fetchNearbyFood(route);
+    };
+
+    const geojson = {
+        type: 'FeatureCollection',
+        features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [-122.4, 37.8] } }],
+    };
+
+    const layerStyle = {
+        id: 'point',
+        type: 'circle',
+        paint: {
+            'circle-radius': 10,
+            'circle-color': '#007cbf',
+        },
     };
 
     return (

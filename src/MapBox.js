@@ -28,11 +28,11 @@ const MapBox = () => {
     `;
 
     const MapWrapper = styled.div`
-        height: 800px;
+        height: 900px;
         width: 65%;
         left: 35%;
         top: 0;
-        position: absolute;
+        position: fixed;
     `;
     const Location = styled.button`
         position: absolute;
