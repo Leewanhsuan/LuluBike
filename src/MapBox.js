@@ -28,11 +28,18 @@ const MapBox = () => {
     `;
 
     const MapWrapper = styled.div`
-        height: 900px;
+        height: 1280px;
         width: 65%;
         left: 35%;
         top: 0;
         position: fixed;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            height: 1200px;
+            left: 0;
+            top: 0;
+        }
     `;
     const Location = styled.button`
         position: absolute;
@@ -46,6 +53,12 @@ const MapBox = () => {
         border: 0px;
         z-index: 10;
         position: fixed;
+
+        @media screen and (max-width: 768px) {
+            position: absolute;
+            right: 5%;
+            top: 15%;
+        }
     `;
 
     const MyLocationPopupTitle = styled.div`

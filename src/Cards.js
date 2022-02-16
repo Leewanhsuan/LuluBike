@@ -9,6 +9,10 @@ const Cards = (props) => {
         width: 80%;
         top: 150px;
         z-index: 20;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
     `;
 
     const RouteCard = styled.div`
@@ -21,6 +25,10 @@ const Cards = (props) => {
         top: 20px
         padding-top: 20px;
         z-index: 15;
+        
+        @media screen and (max-width: 768px) {
+            width: 350px;
+        }
     `;
 
     const RouteTitle = styled.span`
@@ -71,6 +79,11 @@ const Cards = (props) => {
         top: 20px;
         margin-bottom: 20px;
         z-index: 15;
+
+        @media screen and (max-width: 768px) {
+            width: 350px;
+            margin-left: 3%;
+        }
     `;
 
     const FoodImage = styled.img`
@@ -117,6 +130,24 @@ const Cards = (props) => {
                     <span>終點 {routeData.RoadSectionStart}</span>
                 </span>
             </RouteCard> */}
+            <FoodCard>
+                <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
+                <FoodTitle>我是餐廳</FoodTitle>
+                <FoodDescription>
+                    <p>地址：</p>
+                    <p>電話：</p>
+                    <p>開放時間：</p>
+                </FoodDescription>
+            </FoodCard>
+            <FoodCard>
+                <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
+                <FoodTitle>我是餐廳</FoodTitle>
+                <FoodDescription>
+                    <p>地址：</p>
+                    <p>電話：</p>
+                    <p>開放時間：</p>
+                </FoodDescription>
+            </FoodCard>
             <FoodCard>
                 <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
                 <FoodTitle>我是餐廳</FoodTitle>

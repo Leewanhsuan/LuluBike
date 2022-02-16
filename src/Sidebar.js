@@ -102,6 +102,11 @@ const Sidebar = () => {
         display: flex;
         justify-content: center;
         z-index: 5;
+
+        @media screen and (max-width: 768px) {
+            top: 400px;
+            width: 100%;
+        }
     `;
     const SideBarWrapper = styled.div`
         width: 30%;
@@ -113,6 +118,9 @@ const Sidebar = () => {
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 0px 0px 9px 9px;
         margin: auto 0;
+        @media screen and (max-width: 768px) {
+            width: 80%;
+        }
     `;
     const SideTitle = styled.div`
         font-style: normal;
@@ -135,6 +143,29 @@ const Sidebar = () => {
         top: 5px;
     `;
 
+    const SelectionSection = styled.div`
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        top: 80px;
+        width: 80%;
+        margin: auto 0;
+        option {
+            color: black;
+            background: white;
+            display: flex;
+            white-space: pre;
+            min-height: 20px;
+            padding: 0px 2px 1px;
+        }
+
+        @media screen and (max-width: 768px) {
+            position: fixed;
+            top: 80px;
+            width: 80%;
+        }
+    `;
+
     const CitySelection = styled.select`
         align-items: center;
         padding: 12px 16px;
@@ -155,23 +186,6 @@ const Sidebar = () => {
         border-radius: 27px;
         border: 0px;
         margin-left: 20px;
-        option {
-            color: black;
-            background: white;
-            display: flex;
-            white-space: pre;
-            min-height: 20px;
-            padding: 0px 2px 1px;
-        }
-    `;
-
-    const SelectionSection = styled.div`
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        top: 80px;
-        width: 80%;
-        margin: auto 0;
         option {
             color: black;
             background: white;
