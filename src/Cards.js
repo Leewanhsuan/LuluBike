@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpRightFromSquare, faPhone, faClock, faMapPin } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faClock, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const Cards = () => {
     const [selectedRouteData, setSelectedRouteData] = useState([]);
-    const [nearbySpotData, setNearbySpotData] = useState([]);
 
     const { RouteData } = useSelector((state) => state.bikeRoute);
-    const { SpotData } = useSelector((state) => state.bikeRoute);
+    const { SpotsData } = useSelector((state) => state.bikeRoute);
 
     useEffect(() => {
         setSelectedRouteData({
@@ -20,6 +19,14 @@ const Cards = () => {
         });
     }, [RouteData]);
     console.log(RouteData, 'RouteData');
+    console.log(SpotsData, 'SpotsData');
+
+    console.log(
+        SpotsData.map((spot) => {
+            return spot.item;
+        }),
+        'lalalalalatest'
+    );
 
     /*此區為樣式設計*/
     const CardsWrapper = styled.div`
@@ -171,22 +178,6 @@ const Cards = () => {
         padding: 2px;
     `;
 
-    // useEffect(() => {
-    //     SpotData.map((data) => {
-    //         setNearbySpotData({
-    //             Class1: data.Class1,
-    //             Class2: data.Class2,
-    //             OpenTime: data.Class1.OpenTime,
-    //             Phone: data.Phone,
-    //             Picture: data.Picture,
-    //             Position: data.Position,
-    //             ScenicSpotID: data.ScenicSpotID,
-    //             ScenicSpotName: data.ScenicSpotName,
-    //             WebsiteUrl: data.WebsiteUrl,
-    //         });
-    //     });
-    // }, [SpotData]);
-
     return (
         <CardsWrapper>
             {selectedRouteData.RouteName === '' ? (
@@ -207,30 +198,43 @@ const Cards = () => {
                     </RouteLength>
                 </RouteCard>
             )}
-            <SpotCard>
-                <SpotImage src="https://www.travel.taipei/image/221908" alt="臺北植物園"></SpotImage>
-                <SpotTitle>臺北植物園</SpotTitle>
-                <SpotClasses>
-                    <SpotClass>自然風景</SpotClass>
-                    <SpotClass>都會公園</SpotClass>
-                </SpotClasses>
-                <SpotDescription>
-                    <p>
-                        <FontAwesomeIcon icon={faPhone} style={{ color: '#854b05', paddingRight: '5px' }} />
-                        電話：886-2-23039978
-                    </p>
-                    <p>
-                        <FontAwesomeIcon icon={faClock} style={{ color: '#854b05', paddingRight: '5px' }} />
-                        開放時間：週一至週日 5:30-22:00
-                    </p>
-                    <p>
-                        <FontAwesomeIcon icon={faUpRightFromSquare} style={{ color: '#854b05', paddingRight: '5px' }} />
-                        <a href="https://tpbg.tfri.gov.tw/" target="_blank" rel="">
-                            前往官網
-                        </a>
-                    </p>
-                </SpotDescription>
-            </SpotCard>
+
+            {SpotsData[0].item.ScenicSpotName === '' ? (
+                <></>
+            ) : (
+                <>
+                    {SpotsData.map((spot) => {
+                        return (
+                            <SpotCard>
+                                <SpotImage
+                                    src={spot.item.Picture.PictureUrl1}
+                                    alt={spot.item.Picture.PictureDescription1}></SpotImage>
+                                <SpotTitle>{spot.item.ScenicSpotName}</SpotTitle>
+                                <SpotClasses>
+                                    <SpotClass>{spot.item.Class1}</SpotClass>
+                                    <SpotClass>{spot.item.Class2}</SpotClass>
+                                </SpotClasses>
+                                <SpotDescription>
+                                    <p>
+                                        <FontAwesomeIcon
+                                            icon={faPhone}
+                                            style={{ color: '#854b05', paddingRight: '5px' }}
+                                        />
+                                        電話：{spot.item.Phone}
+                                    </p>
+                                    <p>
+                                        <FontAwesomeIcon
+                                            icon={faClock}
+                                            style={{ color: '#854b05', paddingRight: '5px' }}
+                                        />
+                                        開放時間：{spot.item.OpenTime}
+                                    </p>
+                                </SpotDescription>
+                            </SpotCard>
+                        );
+                    })}
+                </>
+            )}
         </CardsWrapper>
     );
 };

@@ -127,7 +127,7 @@ const Sidebar = () => {
     const SideTitle = styled.div`
         font-style: normal;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 56px;
         display: flex;
         align-items: flex-end;

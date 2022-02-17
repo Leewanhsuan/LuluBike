@@ -10,7 +10,6 @@ import { fetchNearByStation, fetchAvailableBike } from './Service';
 import { useSelector } from 'react-redux';
 
 const MapBox = () => {
-    const [nearByStation, setNearByStation] = useState([]);
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
     const { StationData } = useSelector((state) => state.bikeRoute);
@@ -27,15 +26,12 @@ const MapBox = () => {
     const [showPopup, setShowPopup] = useState(true);
 
     useEffect(() => {
-        setNearByStation({
-            // StationID: StationData.StationID,
-            // StationName: StationData.StationName,
-            // StationPosition: StationData.StationPosition,
-            // StationAddress: StationData.StationAddress,
+        setView({
+            longitude: StationData[0].item.StationPosition.PositionLon,
+            latitude: StationData[0].item.StationPosition.PositionLat,
+            zoom: 16,
         });
     }, [StationData]);
-
-    // console.log(nearByStation);
 
     const MarkerImage = styled.image`
         width: 20px;
@@ -140,6 +136,33 @@ const MapBox = () => {
                 {...view}
                 mapStyle="mapbox://styles/mapbox/streets-v9"
                 mapboxAccessToken={MAPBOX_TOKEN}>
+                {StationData.StationID === '' ? (
+                    <></>
+                ) : (
+                    <>
+                        {StationData.map((station) => (
+                            <Marker
+                                key={station.item.StationID}
+                                longitude={station.item.StationPosition.PositionLon}
+                                latitude={station.item.StationPosition.PositionLat}>
+                                <FontAwesomeIcon icon={faLocationPin} size="3x" style={{ color: '#686ffc' }} />
+                                {showPopup && (
+                                    <Popup
+                                        key={station.item.StationID}
+                                        longitude={station.item.StationPosition.PositionLon}
+                                        latitude={station.item.StationPosition.PositionLat}
+                                        anchor="bottom"
+                                        onClose={() => setShowPopup(false)}>
+                                        <BikeStationName>{station.item.StationName.Zh_tw}</BikeStationName>
+                                        <BikeStationAddress>{station.item.StationAddress.Zh_tw}</BikeStationAddress>
+                                        <BikeStationBikeStatus></BikeStationBikeStatus>
+                                    </Popup>
+                                )}
+                            </Marker>
+                        ))}
+                    </>
+                )}
+
                 {stationData.map((station) => (
                     <Marker
                         key={station.StationID}
