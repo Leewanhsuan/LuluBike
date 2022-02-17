@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
-const Cards = (props) => {
-    const routeData = props.data.item;
-
+const Cards = () => {
+    const [selectedRouteData, setSelectedRouteData] = useState([]);
     const CardsWrapper = styled.div`
         position: absolute;
         width: 80%;
@@ -14,7 +14,6 @@ const Cards = (props) => {
             width: 100%;
         }
     `;
-
     const RouteCard = styled.div`
         position: relative;
         width: 100%;
@@ -28,9 +27,9 @@ const Cards = (props) => {
         
         @media screen and (max-width: 768px) {
             width: 350px;
+            margin-left: 3%;
         }
     `;
-
     const RouteTitle = styled.span`
         position: absolute;
         left: 12px;
@@ -42,7 +41,6 @@ const Cards = (props) => {
         line-height: 140%;
         color: #131678;
     `;
-
     const RouteSubtitle = styled.div`
         position: absolute;
         left: 25px;
@@ -55,7 +53,6 @@ const Cards = (props) => {
         background: #ffffff;
         border-radius: 17px;
     `;
-
     const RouteLength = styled.div`
         position: absolute;
         left: 25px;
@@ -65,8 +62,20 @@ const Cards = (props) => {
         line-height: 100%;
         color: #131678;
         font-size: 14px;
-        background: #ffffff;
+    `;
+
+    const DefaultRouteCard = styled.div`
+        width: 100%;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: #686ffc;
+        color: white;
         border-radius: 17px;
+        @media screen and (max-width: 768px) {
+            margin-left: 3%;
+            width: 350px;
+        }
     `;
 
     const FoodCard = styled.div`
@@ -85,7 +94,6 @@ const Cards = (props) => {
             margin-left: 3%;
         }
     `;
-
     const FoodImage = styled.img`
         width: 96%;
         aspect-ratio: 370 / 162;
@@ -100,7 +108,6 @@ const Cards = (props) => {
         margin: 8px 0px;
         object-fit: cover;
     `;
-
     const FoodTitle = styled.div`
         position: relative;
         left: 10px;
@@ -110,6 +117,7 @@ const Cards = (props) => {
         font-size: 18px;
         color: #854b05;
     `;
+    const FoodSubtitle = styled.div``;
     const FoodDescription = styled.div`
         position: relative;
         left: 10px;
@@ -119,18 +127,37 @@ const Cards = (props) => {
         display: wrap;
     `;
 
+    const { RouteData } = useSelector((state) => state.bikeRoute);
+
+    useEffect(() => {
+        setSelectedRouteData({
+            RouteName: RouteData.RouteName,
+            CyclingLength: RouteData.CyclingLength,
+            RoadSectionEnd: RouteData.RoadSectionEnd,
+            RoadSectionStart: RouteData.RoadSectionStart,
+        });
+    }, [RouteData]);
+
+    console.log(selectedRouteData, 'selectedRouteData');
+
     return (
         <CardsWrapper>
-            {/* <RouteCard>
-                <RouteTitle>{routeData.RouteName}</RouteTitle>
-                <RouteSubtitle>自行車道</RouteSubtitle>
-                <RouteLength>全長 {routeData.CyclingLength} 公里</RouteLength>
-                <span>
-                    <span>起點 {routeData.RoadSectionEnd}</span>
-                    <span>終點 {routeData.RoadSectionStart}</span>
-                </span>
-            </RouteCard> */}
+            {selectedRouteData.RouteName === '' ? (
+                <DefaultRouteCard>哎呀空空的 🤭 快來選擇自行車道吧</DefaultRouteCard>
+            ) : (
+                <RouteCard>
+                    <RouteSubtitle>自行車道</RouteSubtitle>
+                    <RouteTitle>{selectedRouteData.RouteName}</RouteTitle>
+                    <RouteLength>
+                        <span>全長 {selectedRouteData.CyclingLength} 公里</span>
+                        <span>起點 {selectedRouteData.RoadSectionEnd}</span>
+                        <span>終點 {selectedRouteData.RoadSectionStart}</span>
+                    </RouteLength>
+                </RouteCard>
+            )}
+
             <FoodCard>
+                <FoodSubtitle>附近美食</FoodSubtitle>
                 <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
                 <FoodTitle>我是餐廳</FoodTitle>
                 <FoodDescription>

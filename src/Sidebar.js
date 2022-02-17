@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import { fetchNearbyFood, fetchRoutesData } from './Service';
 import Cards from './Cards';
 import { useEffect, useState } from 'react';
+import { routeGetData } from './redux/bikeRoute';
+import { useDispatch } from 'react-redux';
 
 const Sidebar = () => {
     const [routes, setRoutes] = useState([]);
-    const [route, setRoute] = useState([]);
     const [selectedCity, setSelectedCity] = useState('城市');
+    const dispatch = useDispatch();
     const cityList = [
         {
             label: '臺北市',
@@ -211,8 +213,11 @@ const Sidebar = () => {
     };
 
     const setFilteredRoute = async (event) => {
-        setRoute(routes[event.target.value]);
-        const foodData = await fetchNearbyFood(route);
+        const selectedRoute = routes[event.target.value];
+        console.log(routes[event.target.value], 'test');
+        dispatch(routeGetData(selectedRoute.item));
+
+        // const foodData = await fetchNearbyFood(route);
     };
 
     const geojson = {
@@ -245,9 +250,7 @@ const Sidebar = () => {
                     ))}
                 </CitySelection>
                 <RouteSelection onChange={(event) => setFilteredRoute(event)}>
-                    <option value="" hidden>
-                        自行車道
-                    </option>
+                    <option>請選擇城市</option>
                     {routes.map((route, index) => (
                         <option value={index} key={index}>
                             {route.item.RouteName}
@@ -255,7 +258,7 @@ const Sidebar = () => {
                     ))}
                 </RouteSelection>
             </SelectionSection>
-            <Cards data={route} />
+            <Cards />
         </SideWrapper>
     );
 };
