@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpRightFromSquare, faPhone, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faUpRightFromSquare, faPhone, faClock, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const Cards = () => {
     const [selectedRouteData, setSelectedRouteData] = useState([]);
@@ -35,7 +35,7 @@ const Cards = () => {
     const RouteCard = styled.div`
         position: relative;
         width: 100%;
-        height: 250px;
+        height: 200px;
         background: #E0E2FE;
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 9px;
@@ -50,7 +50,6 @@ const Cards = () => {
     `;
     const RouteTitle = styled.span`
         position: absolute;
-        left: 12px;
         top: 40px;
         padding-left: 20px;
         font-style: normal;
@@ -61,25 +60,35 @@ const Cards = () => {
     `;
     const RouteSubtitle = styled.div`
         position: absolute;
-        left: 25px;
-        top: 80px;
-        width: 80px;
-        text-algin: center;
-        line-height: 100%;
-        color: #131678;
-        font-size: 14px;
-        background: #ffffff;
+        top: 75px;
+        left: 10px;
+        width: 100px;
         border-radius: 17px;
+        font-size: 12px;
+        background: #131678;
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        margin-left: 10px;
+        padding: 2px;
     `;
     const RouteLength = styled.div`
         position: absolute;
-        left: 25px;
-        top: 80px;
-        width: 120px;
+        left: 5%;
+        top: 120px;
         text-algin: center;
         line-height: 100%;
         color: #131678;
         font-size: 14px;
+        background: white;
+        width: 90%;
+        height: 30%;
+        border-radius: 5px;
+        display: flex;
+    `;
+
+    const RouteLengthText = styled.p`
+        margin: auto;
     `;
 
     const DefaultRouteCard = styled.div`
@@ -99,7 +108,7 @@ const Cards = () => {
     const SpotCard = styled.div`
         position: relative;
         width: 100%;
-        height: 280px;
+        height: 330px;
         background: #fff9cc;
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 9px;
@@ -132,11 +141,10 @@ const Cards = () => {
         top: 0px;
         font-style: normal;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 20px;
         color: #854b05;
         padding-bottom: 5px;
     `;
-    const SpotSubtitle = styled.div``;
 
     const SpotDescription = styled.div`
         position: relative;
@@ -185,12 +193,17 @@ const Cards = () => {
                 <DefaultRouteCard>哎呀空空的 🤭 快來選擇自行車道吧</DefaultRouteCard>
             ) : (
                 <RouteCard>
-                    <RouteSubtitle>自行車道</RouteSubtitle>
+                    <RouteSubtitle>全長 {selectedRouteData.CyclingLength} 公里</RouteSubtitle>
                     <RouteTitle>{selectedRouteData.RouteName}</RouteTitle>
                     <RouteLength>
-                        <span>全長 {selectedRouteData.CyclingLength} 公里</span>
-                        <span>起點 {selectedRouteData.RoadSectionEnd}</span>
-                        <span>終點 {selectedRouteData.RoadSectionStart}</span>
+                        <RouteLengthText>
+                            <FontAwesomeIcon icon={faMapPin} style={{ color: '#131678', paddingRight: '10px' }} />
+                            起點 {selectedRouteData.RoadSectionEnd}
+                        </RouteLengthText>
+                        <RouteLengthText>
+                            <FontAwesomeIcon icon={faMapPin} style={{ color: '#131678', paddingRight: '10px' }} />
+                            終點 {selectedRouteData.RoadSectionStart}
+                        </RouteLengthText>
                     </RouteLength>
                 </RouteCard>
             )}
