@@ -1,9 +1,27 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpRightFromSquare, faPhone, faClock } from '@fortawesome/free-solid-svg-icons';
 
 const Cards = () => {
     const [selectedRouteData, setSelectedRouteData] = useState([]);
+    const [nearbySpotData, setNearbySpotData] = useState([]);
+
+    const { RouteData } = useSelector((state) => state.bikeRoute);
+    const { SpotData } = useSelector((state) => state.bikeRoute);
+
+    useEffect(() => {
+        setSelectedRouteData({
+            RouteName: RouteData.RouteName,
+            CyclingLength: RouteData.CyclingLength,
+            RoadSectionEnd: RouteData.RoadSectionEnd,
+            RoadSectionStart: RouteData.RoadSectionStart,
+        });
+    }, [RouteData]);
+    console.log(RouteData, 'RouteData');
+
+    /*此區為樣式設計*/
     const CardsWrapper = styled.div`
         position: absolute;
         width: 80%;
@@ -78,7 +96,7 @@ const Cards = () => {
         }
     `;
 
-    const FoodCard = styled.div`
+    const SpotCard = styled.div`
         position: relative;
         width: 100%;
         height: 280px;
@@ -94,13 +112,13 @@ const Cards = () => {
             margin-left: 3%;
         }
     `;
-    const FoodImage = styled.img`
+    const SpotImage = styled.img`
         width: 96%;
         aspect-ratio: 370 / 162;
         position: relative;
         left: 2%;
         top: 0px;
-        border-radius: 9px;
+        border-radius: 5px;
         flex: none;
         order: 0;
         align-self: stretch;
@@ -108,35 +126,58 @@ const Cards = () => {
         margin: 8px 0px;
         object-fit: cover;
     `;
-    const FoodTitle = styled.div`
+    const SpotTitle = styled.div`
         position: relative;
-        left: 10px;
+        left: 15px;
         top: 0px;
         font-style: normal;
         font-weight: bold;
         font-size: 18px;
         color: #854b05;
+        padding-bottom: 5px;
     `;
-    const FoodSubtitle = styled.div``;
-    const FoodDescription = styled.div`
+    const SpotSubtitle = styled.div``;
+
+    const SpotDescription = styled.div`
         position: relative;
-        left: 10px;
+        left: 15px;
+        top: 10px;
         color: #854b05;
         font-size: 14px;
         padding-bottom: 10px;
         display: wrap;
     `;
 
-    const { RouteData } = useSelector((state) => state.bikeRoute);
+    const SpotClasses = styled.div`
+        display: flex;
+    `;
 
-    useEffect(() => {
-        setSelectedRouteData({
-            RouteName: RouteData.RouteName,
-            CyclingLength: RouteData.CyclingLength,
-            RoadSectionEnd: RouteData.RoadSectionEnd,
-            RoadSectionStart: RouteData.RoadSectionStart,
-        });
-    }, [RouteData]);
+    const SpotClass = styled.div`
+        font-size: 12px;
+        width: 60px;
+        background: #854b05;
+        color: white;
+        border-radius: 10px;
+        text-align: center;
+        margin-left: 10px;
+        padding: 2px;
+    `;
+
+    // useEffect(() => {
+    //     SpotData.map((data) => {
+    //         setNearbySpotData({
+    //             Class1: data.Class1,
+    //             Class2: data.Class2,
+    //             OpenTime: data.Class1.OpenTime,
+    //             Phone: data.Phone,
+    //             Picture: data.Picture,
+    //             Position: data.Position,
+    //             ScenicSpotID: data.ScenicSpotID,
+    //             ScenicSpotName: data.ScenicSpotName,
+    //             WebsiteUrl: data.WebsiteUrl,
+    //         });
+    //     });
+    // }, [SpotData]);
 
     return (
         <CardsWrapper>
@@ -153,34 +194,30 @@ const Cards = () => {
                     </RouteLength>
                 </RouteCard>
             )}
-
-            <FoodCard>
-                <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
-                <FoodTitle>我是餐廳</FoodTitle>
-                <FoodDescription>
-                    <p>地址：</p>
-                    <p>電話：</p>
-                    <p>開放時間：</p>
-                </FoodDescription>
-            </FoodCard>
-            <FoodCard>
-                <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
-                <FoodTitle>我是餐廳</FoodTitle>
-                <FoodDescription>
-                    <p>地址：</p>
-                    <p>電話：</p>
-                    <p>開放時間：</p>
-                </FoodDescription>
-            </FoodCard>
-            <FoodCard>
-                <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
-                <FoodTitle>我是餐廳</FoodTitle>
-                <FoodDescription>
-                    <p>地址：</p>
-                    <p>電話：</p>
-                    <p>開放時間：</p>
-                </FoodDescription>
-            </FoodCard>
+            <SpotCard>
+                <SpotImage src="https://www.travel.taipei/image/221908" alt="臺北植物園"></SpotImage>
+                <SpotTitle>臺北植物園</SpotTitle>
+                <SpotClasses>
+                    <SpotClass>自然風景</SpotClass>
+                    <SpotClass>都會公園</SpotClass>
+                </SpotClasses>
+                <SpotDescription>
+                    <p>
+                        <FontAwesomeIcon icon={faPhone} style={{ color: '#854b05', paddingRight: '5px' }} />
+                        電話：886-2-23039978
+                    </p>
+                    <p>
+                        <FontAwesomeIcon icon={faClock} style={{ color: '#854b05', paddingRight: '5px' }} />
+                        開放時間：週一至週日 5:30-22:00
+                    </p>
+                    <p>
+                        <FontAwesomeIcon icon={faUpRightFromSquare} style={{ color: '#854b05', paddingRight: '5px' }} />
+                        <a href="https://tpbg.tfri.gov.tw/" target="_blank" rel="">
+                            前往官網
+                        </a>
+                    </p>
+                </SpotDescription>
+            </SpotCard>
         </CardsWrapper>
     );
 };

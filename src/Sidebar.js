@@ -220,7 +220,7 @@ const Sidebar = () => {
         const routeLongitude = locationArray.slice(0, 1);
         const routeLatitude = locationArray.slice(1, 2);
 
-        fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {
+        await fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {
             result = result.map((item) => {
                 return { item };
             });

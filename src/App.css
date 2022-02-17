@@ -98,3 +98,17 @@ body {
   width: 100%;
   height: 1200px;
 }
+
+a {
+  text-decoration: none
+}
+
+a:visited {
+  color: #854b05;
+  text-decoration: none
+}
+
+a:hover {
+  color: #f68300;
+  text-decoration: none
+}
