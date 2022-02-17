@@ -6,6 +6,7 @@ import { faPhone, faClock, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
 const Cards = () => {
     const [selectedRouteData, setSelectedRouteData] = useState([]);
+    const [spotCardData, setSpotCardData] = useState([]);
 
     const { RouteData } = useSelector((state) => state.bikeRoute);
     const { SpotsData } = useSelector((state) => state.bikeRoute);
@@ -18,15 +19,9 @@ const Cards = () => {
             RoadSectionStart: RouteData.RoadSectionStart,
         });
     }, [RouteData]);
+
     console.log(RouteData, 'RouteData');
     console.log(SpotsData, 'SpotsData');
-
-    console.log(
-        SpotsData.map((spot) => {
-            return spot.item;
-        }),
-        'lalalalalatest'
-    );
 
     /*此區為樣式設計*/
     const CardsWrapper = styled.div`
@@ -115,7 +110,7 @@ const Cards = () => {
     const SpotCard = styled.div`
         position: relative;
         width: 100%;
-        height: 330px;
+        height: 300px;
         background: #fff9cc;
         box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
         border-radius: 9px;
@@ -199,21 +194,17 @@ const Cards = () => {
                 </RouteCard>
             )}
 
-            {SpotsData[0].item.ScenicSpotName === '' ? (
+            {SpotsData.City === '' ? (
                 <></>
             ) : (
                 <>
                     {SpotsData.map((spot) => {
                         return (
-                            <SpotCard>
+                            <SpotCard key={spot.item.ScenicSpotID}>
                                 <SpotImage
                                     src={spot.item.Picture.PictureUrl1}
                                     alt={spot.item.Picture.PictureDescription1}></SpotImage>
                                 <SpotTitle>{spot.item.ScenicSpotName}</SpotTitle>
-                                <SpotClasses>
-                                    <SpotClass>{spot.item.Class1}</SpotClass>
-                                    <SpotClass>{spot.item.Class2}</SpotClass>
-                                </SpotClasses>
                                 <SpotDescription>
                                     <p>
                                         <FontAwesomeIcon

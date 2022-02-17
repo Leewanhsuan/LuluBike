@@ -25,12 +25,16 @@ const MapBox = () => {
     });
     const [showPopup, setShowPopup] = useState(true);
 
+    console.log(StationData, 'StationData');
+
     useEffect(() => {
-        setView({
-            longitude: StationData[0].item.StationPosition.PositionLon,
-            latitude: StationData[0].item.StationPosition.PositionLat,
-            zoom: 16,
-        });
+        StationData.StationID === ''
+            ? console.log('empty')
+            : setView({
+                  longitude: StationData[0].item.StationPosition.PositionLon,
+                  latitude: StationData[0].item.StationPosition.PositionLat,
+                  zoom: 16,
+              });
     }, [StationData]);
 
     const MarkerImage = styled.image`
