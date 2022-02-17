@@ -138,8 +138,6 @@ const Cards = () => {
         });
     }, [RouteData]);
 
-    console.log(selectedRouteData, 'selectedRouteData');
-
     return (
         <CardsWrapper>
             {selectedRouteData.RouteName === '' ? (
@@ -157,7 +155,6 @@ const Cards = () => {
             )}
 
             <FoodCard>
-                <FoodSubtitle>附近美食</FoodSubtitle>
                 <FoodImage src={require(`../src/image/notfound.png`)} alt="photoNotFound"></FoodImage>
                 <FoodTitle>我是餐廳</FoodTitle>
                 <FoodDescription>

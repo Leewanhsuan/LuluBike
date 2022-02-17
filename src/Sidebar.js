@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { fetchNearbyFood, fetchRoutesData } from './Service';
+import { fetchNearbyScenicSpot, fetchRoutesData } from './Service';
 import Cards from './Cards';
 import { useEffect, useState } from 'react';
-import { routeGetData } from './redux/bikeRoute';
+import { routeGetData, spotGetData } from './redux/bikeRoute';
 import { useDispatch } from 'react-redux';
 
 const Sidebar = () => {
@@ -216,8 +216,17 @@ const Sidebar = () => {
         const selectedRoute = routes[event.target.value];
         console.log(routes[event.target.value], 'test');
         dispatch(routeGetData(selectedRoute.item));
+        const locationArray = selectedRoute.item.Geometry.match(/[^MULTILINESTRING+^\(+^\+^ ),]+/g);
+        const routeLongitude = locationArray.slice(0, 1);
+        const routeLatitude = locationArray.slice(1, 2);
 
-        // const foodData = await fetchNearbyFood(route);
+        fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {
+            result = result.map((item) => {
+                return { item };
+            });
+            console.log(result, 'result');
+            dispatch(spotGetData(result));
+        });
     };
 
     const geojson = {
@@ -238,7 +247,7 @@ const Sidebar = () => {
         <SideWrapper>
             <SideBarWrapper>
                 <SideTitleLogo src={require(`../src/image/lululogo.png`)} alt="LuluLogo" />
-                <SideTitle>自行車與周邊美食平台</SideTitle>
+                <SideTitle>自行車與周邊景點平台</SideTitle>
             </SideBarWrapper>
             <SelectionSection>
                 <CitySelection onChange={(event) => setCityState(event)}>

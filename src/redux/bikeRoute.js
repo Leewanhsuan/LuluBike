@@ -16,16 +16,17 @@ export const bikeRouteSlice = createSlice({
             Town: '',
             UpdateTime: '',
         },
-        FoodData: {
-            title: '',
-            image: '',
-            tag1: '',
-            tag2: '',
-            dateStart: '',
-            dateEnd: '',
-            description: '',
-            ctaText: '',
-            ctaLink: '',
+        SpotsData: {
+            City: '',
+            Class1: '',
+            Class2: '',
+            OpenTime: '',
+            Phone: '',
+            Picture: { PictureUrl1: '', PictureDescription1: '' },
+            Position: { PositionLon: '', PositionLat: '' },
+            ScenicSpotID: '',
+            ScenicSpotName: '',
+            WebsiteUrl: '',
         },
         StationData: {
             title: '',
@@ -46,13 +47,13 @@ export const bikeRouteSlice = createSlice({
                 RouteData: action.payload,
             };
         },
-        foodGetData: (state, action) => {
+        spotGetData: (state, action) => {
             return {
                 ...state,
-                FoodData: action.payload,
+                SpotsData: action.payload,
             };
         },
-        StationGetData: (state, action) => {
+        stationGetData: (state, action) => {
             return {
                 ...state,
                 StationData: action.payload,
@@ -61,6 +62,6 @@ export const bikeRouteSlice = createSlice({
     },
 });
 
-export const { routeGetData, foodGetData, StationGetData } = bikeRouteSlice.actions;
+export const { routeGetData, spotGetData, stationGetData } = bikeRouteSlice.actions;
 
 export default bikeRouteSlice.reducer;

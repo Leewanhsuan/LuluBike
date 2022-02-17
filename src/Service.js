@@ -51,7 +51,6 @@ export const fetchNearByStation = (longitude, latitude) => {
     return fetch(StationNearbyURL, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-            console.log(result, 'result');
             return result;
         })
         .catch((error) => console.log('error', error));
@@ -79,10 +78,10 @@ export const fetchAvailableBike = (longitude, latitude) => {
 };
 
 /**
- * 取得周邊美食資料
+ * 取得周邊景點資料
  */
-export const fetchNearbyFood = (longitude, latitude) => {
-    const StationNearbyURL = `https://ptx.transportdata.tw/MOTC/v2/Tourism/Restaurant?$top=30&$spatialFilter=nearby(${latitude}%2C${longitude}4%2C%201000)&$format=JSON`;
+export const fetchNearbyScenicSpot = (longitude, latitude) => {
+    const ScenicSpotNearbyURL = `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$top=30&$spatialFilter=nearby(${latitude},${longitude},1000)&$format=JSON`;
 
     var requestOptions = {
         method: 'GET',
@@ -90,10 +89,9 @@ export const fetchNearbyFood = (longitude, latitude) => {
         headers: GetAuthorizationHeader(),
     };
 
-    return fetch(StationNearbyURL, requestOptions)
+    return fetch(ScenicSpotNearbyURL, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-            console.log(result, 'result');
             return result;
         })
         .catch((error) => console.log('error', error));
