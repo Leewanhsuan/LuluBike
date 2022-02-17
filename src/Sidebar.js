@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { fetchNearbyScenicSpot, fetchRoutesData } from './Service';
+import { fetchNearbyScenicSpot, fetchNearByStation, fetchRoutesData } from './Service';
 import Cards from './Cards';
 import { useEffect, useState } from 'react';
-import { routeGetData, spotGetData } from './redux/bikeRoute';
+import { routeGetData, spotGetData, stationGetData } from './redux/bikeRoute';
 import { useDispatch } from 'react-redux';
 
 const Sidebar = () => {
@@ -127,13 +127,13 @@ const Sidebar = () => {
     const SideTitle = styled.div`
         font-style: normal;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 20px;
         line-height: 56px;
         display: flex;
         align-items: flex-end;
         color: #2d2d2d;
         position: absolute;
-        left: 35%;
+        left: 30%;
         z-index: 15;
     `;
 
@@ -220,11 +220,19 @@ const Sidebar = () => {
         const routeLongitude = locationArray.slice(0, 1);
         const routeLatitude = locationArray.slice(1, 2);
 
+        await fetchNearByStation(routeLongitude, routeLatitude).then((result) => {
+            result = result.map((item) => {
+                return { item };
+            });
+            console.log(result, 'stationGetData');
+            dispatch(stationGetData(result));
+        });
+
         await fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {
             result = result.map((item) => {
                 return { item };
             });
-            console.log(result, 'result');
+            console.log(result, 'spotGetData');
             dispatch(spotGetData(result));
         });
     };

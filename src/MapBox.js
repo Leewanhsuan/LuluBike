@@ -5,12 +5,15 @@ import InteractiveMap, { Popup, Marker } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLocationPin, faMapPin } from '@fortawesome/free-solid-svg-icons';
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchNearByStation, fetchAvailableBike } from './Service';
+import { useSelector } from 'react-redux';
 
 const MapBox = () => {
+    const [nearByStation, setNearByStation] = useState([]);
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
+    const { StationData } = useSelector((state) => state.bikeRoute);
     const [view, setView] = useState({
         longitude: 121.5034981,
         latitude: 25.0107806,
@@ -22,6 +25,17 @@ const MapBox = () => {
         zoom: 13,
     });
     const [showPopup, setShowPopup] = useState(true);
+
+    useEffect(() => {
+        setNearByStation({
+            // StationID: StationData.StationID,
+            // StationName: StationData.StationName,
+            // StationPosition: StationData.StationPosition,
+            // StationAddress: StationData.StationAddress,
+        });
+    }, [StationData]);
+
+    // console.log(nearByStation);
 
     const MarkerImage = styled.image`
         width: 20px;
