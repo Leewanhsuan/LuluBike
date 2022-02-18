@@ -20,9 +20,6 @@ const Cards = () => {
         });
     }, [RouteData]);
 
-    console.log(RouteData, 'RouteData');
-    console.log(SpotsData, 'SpotsData');
-
     /*此區為樣式設計*/
     const CardsWrapper = styled.div`
         position: absolute;

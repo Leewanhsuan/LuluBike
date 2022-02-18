@@ -214,7 +214,6 @@ const Sidebar = () => {
 
     const setFilteredRoute = async (event) => {
         const selectedRoute = routes[event.target.value];
-        console.log(routes[event.target.value], 'test');
         dispatch(routeGetData(selectedRoute.item));
         const locationArray = selectedRoute.item.Geometry.match(/[^MULTILINESTRING+^\(+^\+^ ),]+/g);
         const routeLongitude = locationArray.slice(0, 1);
@@ -224,7 +223,7 @@ const Sidebar = () => {
             result = result.map((item) => {
                 return { item };
             });
-            console.log(result, 'stationGetData');
+
             dispatch(stationGetData(result));
         });
 
@@ -232,7 +231,7 @@ const Sidebar = () => {
             result = result.map((item) => {
                 return { item };
             });
-            console.log(result, 'spotGetData');
+
             dispatch(spotGetData(result));
         });
     };
