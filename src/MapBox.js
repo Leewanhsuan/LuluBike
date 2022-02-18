@@ -1,7 +1,15 @@
 import styled from 'styled-components';
 import './index.css';
 import * as React from 'react';
-import InteractiveMap, { Popup, Marker, NavigationControl, FullscreenControl, ScaleControl } from 'react-map-gl';
+import InteractiveMap, {
+    Popup,
+    Marker,
+    NavigationControl,
+    FullscreenControl,
+    ScaleControl,
+    Source,
+    Layer,
+} from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLocationPin, faMapPin } from '@fortawesome/free-solid-svg-icons';
@@ -37,9 +45,55 @@ const MapBox = () => {
               });
     }, [StationData]);
 
-    const MarkerImage = styled.image`
-        width: 20px;
-    `;
+    const MAPBOX_TOKEN = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
+
+    const dataOne = {
+        type: 'Feature',
+        properties: {},
+        geometry: {
+            type: 'LineString',
+            coordinates: [
+                [-122.41510269913951, 37.77909036739809],
+                [39.5423, -77.0564],
+            ],
+        },
+    };
+
+    const handleSetLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // 取得目前定位經緯度，並重新設定 view 的位置
+                    const longitude = position.coords.longitude;
+                    const latitude = position.coords.latitude;
+
+                    setView({ longitude: longitude, latitude: latitude, zoom: 16 });
+                    setMyLocation({ longitude: longitude, latitude: latitude, zoom: 16 });
+                    // 將經緯度當作參數傳給 getData 執行
+                    getNearByStationData(longitude, latitude);
+                },
+                (e) => {
+                    const errorCode = e.code;
+                    const errorMessage = e.message;
+                    console.error(errorCode);
+                    console.error(errorMessage);
+                }
+            );
+        }
+    };
+
+    // 串接附近的自行車租借站位資料
+    const getNearByStationData = async (longitude, latitude) => {
+        const nearByStation = await fetchNearByStation(longitude, latitude);
+        setStationData(nearByStation);
+        const availableStation = await fetchAvailableBike(longitude, latitude);
+
+        setAvailableStationData(availableStation);
+    };
+
+    console.log(popupInfo, 'popupInfo');
+
+    /*此區為樣式設計*/
 
     const MapWrapper = styled.div`
         height: 900px;
@@ -96,44 +150,6 @@ const MapBox = () => {
     `;
     const BikeStationBikeStatus = styled.p``;
 
-    const MAPBOX_TOKEN = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
-
-    const handleSetLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // 取得目前定位經緯度，並重新設定 view 的位置
-                    const longitude = position.coords.longitude;
-                    const latitude = position.coords.latitude;
-
-                    setView({ longitude: longitude, latitude: latitude, zoom: 16 });
-                    setMyLocation({ longitude: longitude, latitude: latitude, zoom: 16 });
-                    // 將經緯度當作參數傳給 getData 執行
-                    getNearByStationData(longitude, latitude);
-                },
-                (e) => {
-                    const errorCode = e.code;
-                    const errorMessage = e.message;
-                    console.error(errorCode);
-                    console.error(errorMessage);
-                }
-            );
-        }
-    };
-
-    // 串接附近的自行車租借站位資料
-    const getNearByStationData = async (longitude, latitude) => {
-        const nearByStation = await fetchNearByStation(longitude, latitude);
-        setStationData(nearByStation);
-        const availableStation = await fetchAvailableBike(longitude, latitude);
-
-        setAvailableStationData(availableStation);
-    };
-
-    console.log(popupInfo, 'popupInfo');
-
-    //處理點擊 Marker PopUp
-
     return (
         <MapWrapper>
             <InteractiveMap
@@ -147,6 +163,7 @@ const MapBox = () => {
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
                 <ScaleControl />
+
                 {StationData.StationID === '' ? (
                     <></>
                 ) : (
