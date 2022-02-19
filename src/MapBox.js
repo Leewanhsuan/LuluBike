@@ -33,6 +33,7 @@ const MapWrapper = styled.div`
     }
 `;
 const Location = styled.button`
+    cursor: pointer;
     position: absolute;
     right: 5%;
     bottom: 5%;
