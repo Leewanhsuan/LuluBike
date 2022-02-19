@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import './index.css';
 import * as React from 'react';
-import Map, {
+import {
+    Map,
     Popup,
     Marker,
     NavigationControl,
@@ -77,6 +78,7 @@ const BikeStationAddress = styled.p`
 const BikeStationBikeStatus = styled.p``;
 
 const MapBox = ({ bikeRoute }) => {
+    // const { baseMap } = useMap();
     const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
@@ -185,15 +187,17 @@ const MapBox = ({ bikeRoute }) => {
         [stationData]
     );
 
+    useEffect(() => {
+        console.log(`hi`);
+    }, [view]);
+
     return (
         <MapWrapper>
             <Map
+                id="baseMap"
                 mapboxAccessToken={token}
-                initialViewState={{
-                    longitude: view.longitude,
-                    latitude: view.latitude,
-                    zoom: view.zoom,
-                }}
+                {...view}
+                onMove={(evt) => setView(evt.viewState)}
                 mapStyle="mapbox://styles/mapbox/streets-v9">
                 <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
