@@ -5,6 +5,109 @@ import { useEffect, useState } from 'react';
 import { routeGetData, spotGetData, stationGetData } from './redux/bikeRoute';
 import { useDispatch } from 'react-redux';
 
+const SideWrapper = styled.div`
+    height: 1200px;
+    width: 35%;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    z-index: 5;
+
+    @media screen and (max-width: 768px) {
+        top: 400px;
+        width: 100%;
+    }
+`;
+const SideBarWrapper = styled.div`
+    width: 30%;
+    height: 56px;
+    position: fixed;
+    top: 0px;
+    z-index: 30;
+    background: #ffffff;
+    box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+    border-radius: 0px 0px 9px 9px;
+    margin: auto 0;
+    @media screen and (max-width: 768px) {
+        width: 80%;
+    }
+`;
+const SideTitle = styled.div`
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 56px;
+    display: flex;
+    align-items: flex-end;
+    color: #2d2d2d;
+    position: absolute;
+    left: 30%;
+    z-index: 15;
+`;
+
+const SideTitleLogo = styled.img`
+    width: 48px;
+    height: 48px;
+    position: absolute;
+    left: 15%;
+    top: 5px;
+`;
+
+const SelectionSection = styled.div`
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: 80px;
+    width: 80%;
+    margin: auto 0;
+    option {
+        color: black;
+        background: white;
+        display: flex;
+        white-space: pre;
+        min-height: 20px;
+        padding: 0px 2px 1px;
+    }
+
+    @media screen and (max-width: 768px) {
+        position: fixed;
+        top: 80px;
+        width: 80%;
+    }
+`;
+
+const CitySelection = styled.select`
+    align-items: center;
+    padding: 12px 16px;
+    width: 35%;
+    height: 48px;
+    background: #ffffff;
+    box-shadow: 0px 3px 8px rgba(75, 75, 75, 0.3);
+    border-radius: 27px;
+    border: 0px;
+`;
+const RouteSelection = styled.select`
+    align-items: center;
+    padding: 12px 16px;
+    width: 55%;
+    height: 48px;
+    background: #ffffff;
+    box-shadow: 0px 3px 8px rgba(75, 75, 75, 0.3);
+    border-radius: 27px;
+    border: 0px;
+    margin-left: 20px;
+    option {
+        color: black;
+        background: white;
+        display: flex;
+        white-space: pre;
+        min-height: 20px;
+        padding: 0px 2px 1px;
+    }
+`;
+
 const Sidebar = () => {
     const [routes, setRoutes] = useState([]);
     const [selectedCity, setSelectedCity] = useState('城市');
@@ -94,109 +197,6 @@ const Sidebar = () => {
             value: 'PenghuCounty',
         },
     ];
-
-    const SideWrapper = styled.div`
-        height: 1200px;
-        width: 35%;
-        position: relative;
-        top: 0px;
-        left: 0px;
-        display: flex;
-        justify-content: center;
-        z-index: 5;
-
-        @media screen and (max-width: 768px) {
-            top: 400px;
-            width: 100%;
-        }
-    `;
-    const SideBarWrapper = styled.div`
-        width: 30%;
-        height: 56px;
-        position: fixed;
-        top: 0px;
-        z-index: 30;
-        background: #ffffff;
-        box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
-        border-radius: 0px 0px 9px 9px;
-        margin: auto 0;
-        @media screen and (max-width: 768px) {
-            width: 80%;
-        }
-    `;
-    const SideTitle = styled.div`
-        font-style: normal;
-        font-weight: bold;
-        font-size: 18px;
-        line-height: 56px;
-        display: flex;
-        align-items: flex-end;
-        color: #2d2d2d;
-        position: absolute;
-        left: 30%;
-        z-index: 15;
-    `;
-
-    const SideTitleLogo = styled.img`
-        width: 48px;
-        height: 48px;
-        position: absolute;
-        left: 15%;
-        top: 5px;
-    `;
-
-    const SelectionSection = styled.div`
-        display: flex;
-        flex-direction: row;
-        position: absolute;
-        top: 80px;
-        width: 80%;
-        margin: auto 0;
-        option {
-            color: black;
-            background: white;
-            display: flex;
-            white-space: pre;
-            min-height: 20px;
-            padding: 0px 2px 1px;
-        }
-
-        @media screen and (max-width: 768px) {
-            position: fixed;
-            top: 80px;
-            width: 80%;
-        }
-    `;
-
-    const CitySelection = styled.select`
-        align-items: center;
-        padding: 12px 16px;
-        width: 35%;
-        height: 48px;
-        background: #ffffff;
-        box-shadow: 0px 3px 8px rgba(75, 75, 75, 0.3);
-        border-radius: 27px;
-        border: 0px;
-    `;
-    const RouteSelection = styled.select`
-        align-items: center;
-        padding: 12px 16px;
-        width: 55%;
-        height: 48px;
-        background: #ffffff;
-        box-shadow: 0px 3px 8px rgba(75, 75, 75, 0.3);
-        border-radius: 27px;
-        border: 0px;
-        margin-left: 20px;
-        option {
-            color: black;
-            background: white;
-            display: flex;
-            white-space: pre;
-            min-height: 20px;
-            padding: 0px 2px 1px;
-        }
-    `;
 
     const setCityState = (event) => {
         let cityName = cityList.filter(function (value) {

@@ -4,34 +4,18 @@ import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faClock, faMapPin } from '@fortawesome/free-solid-svg-icons';
 
-const Cards = () => {
-    const [selectedRouteData, setSelectedRouteData] = useState([]);
-    const [spotCardData, setSpotCardData] = useState([]);
+/*此區為樣式設計*/
+const CardsWrapper = styled.div`
+    position: absolute;
+    width: 80%;
+    top: 150px;
+    z-index: 20;
 
-    const { RouteData } = useSelector((state) => state.bikeRoute);
-    const { SpotsData } = useSelector((state) => state.bikeRoute);
-
-    useEffect(() => {
-        setSelectedRouteData({
-            RouteName: RouteData.RouteName,
-            CyclingLength: RouteData.CyclingLength,
-            RoadSectionEnd: RouteData.RoadSectionEnd,
-            RoadSectionStart: RouteData.RoadSectionStart,
-        });
-    }, [RouteData]);
-
-    /*此區為樣式設計*/
-    const CardsWrapper = styled.div`
-        position: absolute;
-        width: 80%;
-        top: 150px;
-        z-index: 20;
-
-        @media screen and (max-width: 768px) {
-            width: 100%;
-        }
-    `;
-    const RouteCard = styled.div`
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
+`;
+const RouteCard = styled.div`
         position: relative;
         width: 100%;
         height: 200px;
@@ -47,128 +31,144 @@ const Cards = () => {
             margin-left: 3%;
         }
     `;
-    const RouteTitle = styled.span`
-        position: absolute;
-        top: 40px;
-        padding-left: 20px;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px;
-        line-height: 140%;
-        color: #131678;
-    `;
-    const RouteSubtitle = styled.div`
-        position: absolute;
-        top: 75px;
-        left: 10px;
-        width: 100px;
-        border-radius: 17px;
-        font-size: 12px;
-        background: #131678;
-        color: white;
-        border-radius: 10px;
-        text-align: center;
-        margin-left: 10px;
-        padding: 2px;
-    `;
-    const RouteLength = styled.div`
-        position: absolute;
-        left: 5%;
-        top: 120px;
-        text-algin: center;
-        line-height: 100%;
-        color: #131678;
-        font-size: 14px;
-        background: white;
-        width: 90%;
-        height: 30%;
-        border-radius: 5px;
-        display: flex;
-    `;
+const RouteTitle = styled.span`
+    position: absolute;
+    top: 40px;
+    padding-left: 20px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 140%;
+    color: #131678;
+`;
+const RouteSubtitle = styled.div`
+    position: absolute;
+    top: 75px;
+    left: 10px;
+    width: 100px;
+    border-radius: 17px;
+    font-size: 12px;
+    background: #131678;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 10px;
+    padding: 2px;
+`;
+const RouteLength = styled.div`
+    position: absolute;
+    left: 5%;
+    top: 120px;
+    text-algin: center;
+    line-height: 100%;
+    color: #131678;
+    font-size: 14px;
+    background: white;
+    width: 90%;
+    height: 30%;
+    border-radius: 5px;
+    display: flex;
+`;
 
-    const RouteLengthText = styled.p`
-        margin: auto;
-    `;
+const RouteLengthText = styled.p`
+    margin: auto;
+`;
 
-    const DefaultRouteCard = styled.div`
-        width: 100%;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: #686ffc;
-        color: white;
-        border-radius: 17px;
-        @media screen and (max-width: 768px) {
-            margin-left: 3%;
-            width: 350px;
-        }
-    `;
+const DefaultRouteCard = styled.div`
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #686ffc;
+    color: white;
+    border-radius: 17px;
+    @media screen and (max-width: 768px) {
+        margin-left: 3%;
+        width: 350px;
+    }
+`;
 
-    const SpotCard = styled.div`
-        position: relative;
-        width: 100%;
-        height: 300px;
-        background: #fff9cc;
-        box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
-        border-radius: 9px;
-        top: 20px;
-        margin-bottom: 20px;
-        z-index: 15;
+const SpotCard = styled.div`
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #fff9cc;
+    box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
+    border-radius: 9px;
+    top: 20px;
+    margin-bottom: 20px;
+    z-index: 15;
 
-        @media screen and (max-width: 768px) {
-            width: 350px;
-            margin-left: 3%;
-        }
-    `;
-    const SpotImage = styled.img`
-        width: 96%;
-        aspect-ratio: 370 / 162;
-        position: relative;
-        left: 2%;
-        top: 0px;
-        border-radius: 5px;
-        flex: none;
-        order: 0;
-        align-self: stretch;
-        flex-grow: 1;
-        margin: 8px 0px;
-        object-fit: cover;
-    `;
-    const SpotTitle = styled.div`
-        position: relative;
-        left: 15px;
-        top: 0px;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px;
-        color: #854b05;
-        padding-bottom: 5px;
-    `;
+    @media screen and (max-width: 768px) {
+        width: 350px;
+        margin-left: 3%;
+    }
+`;
+const SpotImage = styled.img`
+    width: 96%;
+    aspect-ratio: 370 / 162;
+    position: relative;
+    left: 2%;
+    top: 0px;
+    border-radius: 5px;
+    flex: none;
+    order: 0;
+    align-self: stretch;
+    flex-grow: 1;
+    margin: 8px 0px;
+    object-fit: cover;
+`;
+const SpotTitle = styled.div`
+    position: relative;
+    left: 15px;
+    top: 0px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    color: #854b05;
+    padding-bottom: 5px;
+`;
 
-    const SpotDescription = styled.div`
-        position: relative;
-        left: 15px;
-        top: 10px;
-        color: #854b05;
-        font-size: 14px;
-        padding-bottom: 10px;
-        display: wrap;
-    `;
+const SpotDescription = styled.div`
+    position: relative;
+    left: 15px;
+    top: 10px;
+    color: #854b05;
+    font-size: 14px;
+    padding-bottom: 10px;
+    display: wrap;
+`;
 
-    const SpotClasses = styled.div`
-        display: flex;
-    `;
+const SpotClasses = styled.div`
+    display: flex;
+`;
 
-    const SpotClass = styled.div`
-        font-size: 12px;
-        width: 60px;
-        background: #854b05;
-        color: white;
-        border-radius: 10px;
-        text-align: center;
-        margin-left: 10px;
-        padding: 2px;
-    `;
+const SpotClass = styled.div`
+    font-size: 12px;
+    width: 60px;
+    background: #854b05;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+    margin-left: 10px;
+    padding: 2px;
+`;
+
+const Cards = () => {
+    const [selectedRouteData, setSelectedRouteData] = useState([]);
+    const [spotCardData, setSpotCardData] = useState([]);
+
+    const { RouteData } = useSelector((state) => state.bikeRoute);
+    const { SpotsData } = useSelector((state) => state.bikeRoute);
+
+    useEffect(() => {
+        setSelectedRouteData({
+            RouteName: RouteData.RouteName,
+            CyclingLength: RouteData.CyclingLength,
+            RoadSectionEnd: RouteData.RoadSectionEnd,
+            RoadSectionStart: RouteData.RoadSectionStart,
+        });
+    }, [RouteData]);
 
     return (
         <CardsWrapper>

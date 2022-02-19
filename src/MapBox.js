@@ -17,6 +17,62 @@ import { useState, useEffect } from 'react';
 import { fetchNearByStation, fetchAvailableBike } from './Service';
 import { useSelector } from 'react-redux';
 
+/*此區為樣式設計*/
+const MapWrapper = styled.div`
+    height: 900px;
+    width: 65%;
+    left: 35%;
+    top: 0;
+    position: fixed;
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        height: 1200px;
+        left: 0;
+        top: 0;
+    }
+`;
+const Location = styled.button`
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+    width: 64px;
+    height: 64px;
+    background: #686ffc;
+    box-shadow: 0px 2px 10px rgba(52, 57, 181, 0.36);
+    border-radius: 50px;
+    border: 0px;
+    z-index: 10;
+    position: fixed;
+
+    @media screen and (max-width: 768px) {
+        position: absolute;
+        right: 5%;
+        top: 15%;
+    }
+`;
+
+const MyLocationPopupTitle = styled.div`
+    font-size: 16px;
+    color: #686ffc;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50px;
+    box-shadow: 0px 2px 10px rgba(52, 57, 181, 0.36);
+    position: relative;
+    left: -25px;
+`;
+
+const BikeStationName = styled.p`
+    font-size: 16px;
+    color: #131678;
+`;
+const BikeStationAddress = styled.p`
+    font-size: 12px;
+    color: #686ffc;
+`;
+const BikeStationBikeStatus = styled.p``;
+
 const MapBox = () => {
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
@@ -92,63 +148,6 @@ const MapBox = () => {
     };
 
     console.log(popupInfo, 'popupInfo');
-
-    /*此區為樣式設計*/
-
-    const MapWrapper = styled.div`
-        height: 900px;
-        width: 65%;
-        left: 35%;
-        top: 0;
-        position: fixed;
-
-        @media screen and (max-width: 768px) {
-            width: 100%;
-            height: 1200px;
-            left: 0;
-            top: 0;
-        }
-    `;
-    const Location = styled.button`
-        position: absolute;
-        right: 5%;
-        bottom: 5%;
-        width: 64px;
-        height: 64px;
-        background: #686ffc;
-        box-shadow: 0px 2px 10px rgba(52, 57, 181, 0.36);
-        border-radius: 50px;
-        border: 0px;
-        z-index: 10;
-        position: fixed;
-
-        @media screen and (max-width: 768px) {
-            position: absolute;
-            right: 5%;
-            top: 15%;
-        }
-    `;
-
-    const MyLocationPopupTitle = styled.div`
-        font-size: 16px;
-        color: #686ffc;
-        padding: 5px;
-        background-color: white;
-        border-radius: 50px;
-        box-shadow: 0px 2px 10px rgba(52, 57, 181, 0.36);
-        position: relative;
-        left: -25px;
-    `;
-
-    const BikeStationName = styled.p`
-        font-size: 16px;
-        color: #131678;
-    `;
-    const BikeStationAddress = styled.p`
-        font-size: 12px;
-        color: #686ffc;
-    `;
-    const BikeStationBikeStatus = styled.p``;
 
     return (
         <MapWrapper>
