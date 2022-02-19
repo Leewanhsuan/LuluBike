@@ -76,7 +76,7 @@ const BikeStationAddress = styled.p`
 `;
 const BikeStationBikeStatus = styled.p``;
 
-const MapBox = () => {
+const MapBox = ({ bikeRoute }) => {
     const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
@@ -108,7 +108,6 @@ const MapBox = () => {
     const handleSetLocation = () => {
         navigator.geolocation?.getCurrentPosition(
             (position) => {
-                // 取得目前定位經緯度，並重新設定 view 的位置
                 const longitude = position.coords.longitude;
                 const latitude = position.coords.latitude;
 
@@ -124,6 +123,33 @@ const MapBox = () => {
                 console.error(errorMessage);
             }
         );
+    };
+
+    const geojson = {
+        type: 'FeatureCollection',
+        features: [
+            {
+                type: 'Feature',
+                properties: {},
+                geometry: {
+                    type: 'LineString',
+                    coordinates: bikeRoute,
+                },
+            },
+        ],
+    };
+
+    const layerStyle = {
+        id: 'lineLayer',
+        type: 'line',
+        layout: {
+            'line-join': 'round',
+            'line-cap': 'round',
+        },
+        paint: {
+            'line-color': 'rgba(122, 30, 128, 1)',
+            'line-width': 5,
+        },
     };
 
     // 串接附近的自行車租借站位資料
@@ -161,7 +187,14 @@ const MapBox = () => {
 
     return (
         <MapWrapper>
-            <Map {...view} mapStyle="mapbox://styles/mapbox/streets-v9" mapboxAccessToken={token}>
+            <Map
+                mapboxAccessToken={token}
+                initialViewState={{
+                    longitude: view.longitude,
+                    latitude: view.latitude,
+                    zoom: view.zoom,
+                }}
+                mapStyle="mapbox://styles/mapbox/streets-v9">
                 <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
@@ -180,6 +213,10 @@ const MapBox = () => {
                         <BikeStationBikeStatus></BikeStationBikeStatus>
                     </Popup>
                 )}
+
+                <Source id="my-data" type="geojson" data={geojson}>
+                    <Layer {...layerStyle} />
+                </Source>
             </Map>
             <Location onClick={() => handleSetLocation()}>
                 <FontAwesomeIcon icon={faLocationArrow} style={{ color: 'white' }} />

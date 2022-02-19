@@ -108,7 +108,7 @@ const RouteSelection = styled.select`
     }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({ setBikeRoute }) => {
     const [routes, setRoutes] = useState([]);
     const [selectedCity, setSelectedCity] = useState('城市');
     const dispatch = useDispatch();
@@ -233,6 +233,11 @@ const Sidebar = () => {
             });
 
             dispatch(spotGetData(result));
+            let newBikeRoute = [];
+            result.map((record) =>
+                newBikeRoute.push([record.item.Position.PositionLon, record.item.Position.PositionLat])
+            );
+            setBikeRoute(newBikeRoute);
         });
     };
 

@@ -18,7 +18,6 @@ export const GetAuthorizationHeader = () => {
 /**
  * 取得自行車路線資料
  */
-
 export const fetchRoutesData = (city) => {
     const cityURL = `https://ptx.transportdata.tw/MOTC/v2/Cycling/Shape/` + city + `?`;
 
