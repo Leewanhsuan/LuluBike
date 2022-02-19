@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import './index.css';
 import * as React from 'react';
-import InteractiveMap, {
+import Map, {
     Popup,
     Marker,
     NavigationControl,
     FullscreenControl,
+    GeolocateControl,
     ScaleControl,
     Source,
     Layer,
@@ -16,6 +17,7 @@ import { faLocationArrow, faLocationPin, faMapPin } from '@fortawesome/free-soli
 import { useState, useEffect } from 'react';
 import { fetchNearByStation, fetchAvailableBike } from './Service';
 import { useSelector } from 'react-redux';
+import MarkerItem from './MarkerItem';
 
 /*此區為樣式設計*/
 const MapWrapper = styled.div`
@@ -75,22 +77,23 @@ const BikeStationAddress = styled.p`
 const BikeStationBikeStatus = styled.p``;
 
 const MapBox = () => {
+    const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
     const [stationData, setStationData] = useState([]);
     const [availableStationData, setAvailableStationData] = useState([]);
     const { StationData } = useSelector((state) => state.bikeRoute);
-    const [popupInfo, setPopupInfo] = useState(null);
     const [view, setView] = useState({
         longitude: 121.5034981,
         latitude: 25.0107806,
         zoom: 13,
+        bearing: 0,
+        pitch: 0,
     });
     const [myLocation, setMyLocation] = useState({
         longitude: '',
         latitude: '',
         zoom: 13,
     });
-
-    console.log(StationData, 'StationData');
+    const [popInfo, setPopInfo] = useState(null);
 
     useEffect(() => {
         StationData.StationID === ''
@@ -102,41 +105,25 @@ const MapBox = () => {
               });
     }, [StationData]);
 
-    const MAPBOX_TOKEN = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
-
-    const dataOne = {
-        type: 'Feature',
-        properties: {},
-        geometry: {
-            type: 'LineString',
-            coordinates: [
-                [-122.41510269913951, 37.77909036739809],
-                [39.5423, -77.0564],
-            ],
-        },
-    };
-
     const handleSetLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // 取得目前定位經緯度，並重新設定 view 的位置
-                    const longitude = position.coords.longitude;
-                    const latitude = position.coords.latitude;
+        navigator.geolocation?.getCurrentPosition(
+            (position) => {
+                // 取得目前定位經緯度，並重新設定 view 的位置
+                const longitude = position.coords.longitude;
+                const latitude = position.coords.latitude;
 
-                    setView({ longitude: longitude, latitude: latitude, zoom: 16 });
-                    setMyLocation({ longitude: longitude, latitude: latitude, zoom: 16 });
-                    // 將經緯度當作參數傳給 getData 執行
-                    getNearByStationData(longitude, latitude);
-                },
-                (e) => {
-                    const errorCode = e.code;
-                    const errorMessage = e.message;
-                    console.error(errorCode);
-                    console.error(errorMessage);
-                }
-            );
-        }
+                setView({ longitude: longitude, latitude: latitude, zoom: 16 });
+                setMyLocation({ longitude: longitude, latitude: latitude, zoom: 16 });
+                // 將經緯度當作參數傳給 getData 執行
+                getNearByStationData(longitude, latitude);
+            },
+            (e) => {
+                const errorCode = e.code;
+                const errorMessage = e.message;
+                console.error(errorCode);
+                console.error(errorMessage);
+            }
+        );
     };
 
     // 串接附近的自行車租借站位資料
@@ -148,81 +135,52 @@ const MapBox = () => {
         setAvailableStationData(availableStation);
     };
 
-    console.log(popupInfo, 'popupInfo');
+    const pins = React.useMemo(
+        () =>
+            stationData.map((station, index) => (
+                <Marker
+                    key={`station.StationID-${index}`}
+                    anchor="bottom"
+                    longitude={station.StationPosition.PositionLon}
+                    latitude={station.StationPosition.PositionLat}>
+                    <MarkerItem
+                        onClick={() =>
+                            setPopInfo({
+                                StationID: station.StationID,
+                                StationName: station.StationName.Zh_tw,
+                                StationAddress: station.StationAddress.Zh_tw,
+                                PositionLon: station.StationPosition.PositionLon,
+                                PositionLat: station.StationPosition.PositionLat,
+                            })
+                        }
+                    />
+                </Marker>
+            )),
+        [stationData]
+    );
 
     return (
         <MapWrapper>
-            <InteractiveMap
-                // onClick={() => {
-                //     setShowPopup(true);
-                // }}
-                className="Map"
-                {...view}
-                mapStyle="mapbox://styles/mapbox/streets-v9"
-                mapboxAccessToken={MAPBOX_TOKEN}>
+            <Map {...view} mapStyle="mapbox://styles/mapbox/streets-v9" mapboxAccessToken={token}>
+                <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
                 <ScaleControl />
 
-                {StationData.StationID === '' ? (
-                    <></>
-                ) : (
-                    <>
-                        {StationData.map((station, index) => (
-                            <Marker
-                                onClick={() => console.log('test')}
-                                key={`marker-${index}`}
-                                longitude={station.item.StationPosition.PositionLon}
-                                latitude={station.item.StationPosition.PositionLat}>
-                                <FontAwesomeIcon icon={faLocationPin} size="3x" style={{ color: '#686ffc' }} />
-                            </Marker>
-                        ))}
-                        {popupInfo && (
-                            <Popup
-                                key={popupInfo.item.StationID}
-                                longitude={popupInfo.item.StationPosition.PositionLon}
-                                latitude={popupInfo.item.StationPosition.PositionLat}
-                                anchor="bottom"
-                                closeOnClick={false}
-                                onClose={() => setPopupInfo(null)}>
-                                <BikeStationName>{popupInfo.item.StationName.Zh_tw}</BikeStationName>
-                                <BikeStationAddress>{popupInfo.item.StationAddress.Zh_tw}</BikeStationAddress>
-                                <BikeStationBikeStatus></BikeStationBikeStatus>
-                            </Popup>
-                        )}
-                    </>
+                {pins}
+                {popInfo && (
+                    <Popup
+                        longitude={popInfo.PositionLon}
+                        latitude={popInfo.PositionLat}
+                        anchor="top"
+                        closeOnClick={false}
+                        onClose={() => setPopInfo(null)}>
+                        <BikeStationName>{popInfo.StationName}</BikeStationName>
+                        <BikeStationAddress>{popInfo.StationAddress}</BikeStationAddress>
+                        <BikeStationBikeStatus></BikeStationBikeStatus>
+                    </Popup>
                 )}
-
-                {stationData.map((station) => (
-                    <Marker
-                        key={station.StationID}
-                        longitude={station.StationPosition.PositionLon}
-                        latitude={station.StationPosition.PositionLat}
-                        onClick={() => setPopupInfo(station)}>
-                        <FontAwesomeIcon icon={faLocationPin} size="3x" style={{ color: '#686ffc' }} />
-                        {
-                            <Popup
-                                key={station.StationID}
-                                longitude={station.StationPosition.PositionLon}
-                                latitude={station.StationPosition.PositionLat}
-                                anchor="top"
-                                onClose={() => setPopupInfo(null)}
-                                // onClose={() => setShowPopup(false)}
-                            >
-                                <BikeStationName>{station.StationName.Zh_tw}</BikeStationName>
-                                <BikeStationAddress>{station.StationAddress.Zh_tw}</BikeStationAddress>
-                                <BikeStationBikeStatus></BikeStationBikeStatus>
-                            </Popup>
-                        }
-                    </Marker>
-                ))}
-                {
-                    <Marker key="myLocation" longitude={myLocation.longitude} latitude={myLocation.latitude}>
-                        <FontAwesomeIcon icon={faMapPin} size="3x" style={{ color: '#686ffc' }} />
-                        <MyLocationPopupTitle>當前位置</MyLocationPopupTitle>
-                    </Marker>
-                }
-            </InteractiveMap>
+            </Map>
             <Location onClick={() => handleSetLocation()}>
                 <FontAwesomeIcon icon={faLocationArrow} style={{ color: 'white' }} />
             </Location>
