@@ -223,7 +223,6 @@ const Sidebar = ({ setBikeRoute }) => {
             result = result.map((item) => {
                 return { item };
             });
-
             dispatch(stationGetData(result));
         });
 
@@ -231,28 +230,14 @@ const Sidebar = ({ setBikeRoute }) => {
             result = result.map((item) => {
                 return { item };
             });
-
             dispatch(spotGetData(result));
-            let newBikeRoute = [];
-            result.map((record) =>
-                newBikeRoute.push([record.item.Position.PositionLon, record.item.Position.PositionLat])
-            );
-            setBikeRoute(newBikeRoute);
         });
-    };
 
-    const geojson = {
-        type: 'FeatureCollection',
-        features: [{ type: 'Feature', geometry: { type: 'Point', coordinates: [-122.4, 37.8] } }],
-    };
-
-    const layerStyle = {
-        id: 'point',
-        type: 'circle',
-        paint: {
-            'circle-radius': 10,
-            'circle-color': '#007cbf',
-        },
+        let newBikeRoute = [];
+        for (let i = 0; i < locationArray.length; i += 2) {
+            newBikeRoute.push([locationArray[i], locationArray[i + 1]]);
+        }
+        setBikeRoute(newBikeRoute);
     };
 
     return (
