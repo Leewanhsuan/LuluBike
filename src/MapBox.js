@@ -187,7 +187,6 @@ const MapBox = ({ bikeRoute }) => {
             stationRenderData.push(item);
         }
         dispatch(stationGetData(stationRenderData));
-        console.log(stationRenderData, 'stationRenderData');
     };
 
     const pins = React.useMemo(

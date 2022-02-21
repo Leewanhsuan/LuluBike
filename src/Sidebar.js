@@ -218,21 +218,24 @@ const Sidebar = ({ setBikeRoute }) => {
         const locationArray = selectedRoute.item.Geometry.match(/[^MULTILINESTRING+^\(+^\+^ ),]+/g);
         const routeLongitude = locationArray.slice(0, 1);
         const routeLatitude = locationArray.slice(1, 2);
-
-        await fetchNearByStation(routeLongitude, routeLatitude).then((result) => {
-            result = result.map((item) => {
-                return { item };
-            });
-            dispatch(stationGetData(result));
-        });
-
-        await fetchAvailableBike(routeLongitude, routeLatitude).then((result) => {
-            result = result.map((item) => {
-                return { item };
-            });
-
-            dispatch(stationBikeGetData(result));
-        });
+        const nearByStation = await fetchNearByStation(routeLongitude, routeLatitude);
+        const availableStation = await fetchAvailableBike(routeLongitude, routeLatitude);
+        const stationRenderData = [];
+        for (let i = 0; i < nearByStation.length; i++) {
+            let item = {};
+            item['StationID'] = nearByStation[i].StationID;
+            item['StationName'] = nearByStation[i].StationName.Zh_tw;
+            item['StationAddress'] = nearByStation[i].StationAddress.Zh_tw;
+            item['PositionLon'] = nearByStation[i].StationPosition.PositionLon;
+            item['PositionLat'] = nearByStation[i].StationPosition.PositionLat;
+            for (let j = 0; j < availableStation.length; j++) {
+                if (nearByStation[i].StationID === availableStation[j].StationID)
+                    item['AvailableRentBikes'] = availableStation[j].AvailableRentBikes;
+                item['AvailableReturnBikes'] = availableStation[j].AvailableReturnBikes;
+            }
+            stationRenderData.push(item);
+        }
+        dispatch(stationGetData(stationRenderData));
 
         await fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {
             result = result.map((item) => {
