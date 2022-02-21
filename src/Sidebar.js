@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { fetchNearbyScenicSpot, fetchNearByStation, fetchRoutesData } from './Service';
+import { fetchAvailableBike, fetchNearbyScenicSpot, fetchNearByStation, fetchRoutesData } from './Service';
 import Cards from './Cards';
 import { useEffect, useState } from 'react';
-import { routeGetData, spotGetData, stationGetData } from './redux/bikeRoute';
+import { routeGetData, spotGetData, stationGetData, stationBikeGetData } from './redux/bikeRoute';
 import { useDispatch } from 'react-redux';
 
 const SideWrapper = styled.div`
@@ -224,6 +224,14 @@ const Sidebar = ({ setBikeRoute }) => {
                 return { item };
             });
             dispatch(stationGetData(result));
+        });
+
+        await fetchAvailableBike(routeLongitude, routeLatitude).then((result) => {
+            result = result.map((item) => {
+                return { item };
+            });
+
+            dispatch(stationBikeGetData(result));
         });
 
         await fetchNearbyScenicSpot(routeLongitude, routeLatitude).then((result) => {

@@ -76,14 +76,26 @@ const BikeStationAddress = styled.p`
     font-size: 12px;
     color: #686ffc;
 `;
-const BikeStationBikeStatus = styled.p``;
+const BikeStationBikeStatus = styled.div`
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    font-size: 12px;
+    color: white;
+    margin-top: 5px;
+`;
+
+const BikeStationBikeStatusNumber = styled.span`
+    background-color: #686ffc;
+    padding: 3px;
+    border-radius: 5px;
+`;
 
 const MapBox = ({ bikeRoute }) => {
     const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
     const dispatch = useDispatch();
-    // const [stationData, setStationData] = useState([]);
     const { StationData } = useSelector((state) => state.bikeRoute);
-    const [availableStationData, setAvailableStationData] = useState([]);
+    const { StationAvailable } = useSelector((state) => state.bikeRoute);
     const [view, setView] = useState({
         longitude: 121.5034981,
         latitude: 25.0107806,
@@ -102,9 +114,9 @@ const MapBox = ({ bikeRoute }) => {
         StationData.length === 0
             ? console.log('empty')
             : setView({
-                  longitude: StationData[0].item.StationPosition.PositionLon,
-                  latitude: StationData[0].item.StationPosition.PositionLat,
-                  zoom: 16,
+                  longitude: StationData[0].PositionLon,
+                  latitude: StationData[0].PositionLat,
+                  zoom: 15,
               });
     }, [StationData]);
 
@@ -155,13 +167,27 @@ const MapBox = ({ bikeRoute }) => {
         },
     };
 
-    // 串接附近的自行車租借站位資料
+    // 串接附近的自行車站資料
     const getNearByStationData = async (longitude, latitude) => {
         const nearByStation = await fetchNearByStation(longitude, latitude);
-        dispatch(stationGetData(nearByStation));
         const availableStation = await fetchAvailableBike(longitude, latitude);
-
-        setAvailableStationData(availableStation);
+        const stationRenderData = [];
+        for (let i = 0; i < nearByStation.length; i++) {
+            let item = {};
+            item['StationID'] = nearByStation[i].StationID;
+            item['StationName'] = nearByStation[i].StationName.Zh_tw;
+            item['StationAddress'] = nearByStation[i].StationAddress.Zh_tw;
+            item['PositionLon'] = nearByStation[i].StationPosition.PositionLon;
+            item['PositionLat'] = nearByStation[i].StationPosition.PositionLat;
+            for (let j = 0; j < availableStation.length; j++) {
+                if (nearByStation[i].StationID === availableStation[j].StationID)
+                    item['AvailableRentBikes'] = availableStation[j].AvailableRentBikes;
+                item['AvailableReturnBikes'] = availableStation[j].AvailableReturnBikes;
+            }
+            stationRenderData.push(item);
+        }
+        dispatch(stationGetData(stationRenderData));
+        console.log(stationRenderData, 'stationRenderData');
     };
 
     const pins = React.useMemo(
@@ -170,16 +196,18 @@ const MapBox = ({ bikeRoute }) => {
                 <Marker
                     key={`station.StationID-${index}`}
                     anchor="bottom"
-                    longitude={station.item.StationPosition.PositionLon}
-                    latitude={station.item.StationPosition.PositionLat}>
+                    longitude={station.PositionLon}
+                    latitude={station.PositionLat}>
                     <MarkerItem
                         onClick={() =>
                             setPopInfo({
-                                StationID: station.item.StationID,
-                                StationName: station.item.StationName.Zh_tw,
-                                StationAddress: station.item.StationAddress.Zh_tw,
-                                PositionLon: station.item.StationPosition.PositionLon,
-                                PositionLat: station.item.StationPosition.PositionLat,
+                                StationID: station.StationID,
+                                StationName: station.StationName,
+                                StationAddress: station.StationAddress,
+                                PositionLon: station.PositionLon,
+                                PositionLat: station.PositionLat,
+                                AvailableRentBikes: station.AvailableRentBikes,
+                                AvailableReturnBikes: station.AvailableReturnBikes,
                             })
                         }
                     />
@@ -210,12 +238,19 @@ const MapBox = ({ bikeRoute }) => {
                     <Popup
                         longitude={popInfo.PositionLon}
                         latitude={popInfo.PositionLat}
-                        anchor="top"
+                        anchor="bottom"
                         closeOnClick={false}
                         onClose={() => setPopInfo(null)}>
                         <BikeStationName>{popInfo.StationName}</BikeStationName>
                         <BikeStationAddress>{popInfo.StationAddress}</BikeStationAddress>
-                        <BikeStationBikeStatus></BikeStationBikeStatus>
+                        <BikeStationBikeStatus>
+                            <BikeStationBikeStatusNumber>
+                                可租借 {popInfo.AvailableRentBikes}
+                            </BikeStationBikeStatusNumber>
+                            <BikeStationBikeStatusNumber>
+                                可歸還 {popInfo.AvailableReturnBikes}
+                            </BikeStationBikeStatusNumber>
+                        </BikeStationBikeStatus>
                     </Popup>
                 )}
 

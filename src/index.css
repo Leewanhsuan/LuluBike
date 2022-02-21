@@ -9,7 +9,7 @@
 
 .mapboxgl-popup-content {
     width: 150px;
-    height: 80px;
+    height: 130px;
     z-index: 30;
     position: relative;
     top: -10px;

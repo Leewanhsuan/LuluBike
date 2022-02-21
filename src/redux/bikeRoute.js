@@ -49,9 +49,15 @@ export const bikeRouteSlice = createSlice({
                 StationData: action.payload,
             };
         },
+        stationBikeGetData: (state, action) => {
+            return {
+                ...state,
+                StationAvailable: action.payload,
+            };
+        },
     },
 });
 
-export const { routeGetData, spotGetData, stationGetData } = bikeRouteSlice.actions;
+export const { routeGetData, spotGetData, stationGetData, stationBikeGetData } = bikeRouteSlice.actions;
 
 export default bikeRouteSlice.reducer;
