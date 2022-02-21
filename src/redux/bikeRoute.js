@@ -28,12 +28,7 @@ export const bikeRouteSlice = createSlice({
             ScenicSpotName: '',
             WebsiteUrl: '',
         },
-        StationData: {
-            StationID: '',
-            StationName: { Zh_tw: '', En: '' },
-            StationPosition: { PositionLon: '', PositionLat: '' },
-            StationAddress: { Zh_tw: '', En: '' },
-        },
+        StationData: [],
     },
     reducers: {
         routeGetData: (state, action) => {

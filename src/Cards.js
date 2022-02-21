@@ -120,6 +120,7 @@ const SpotImage = styled.img`
 `;
 const SpotTitle = styled.div`
     position: relative;
+    width: 90%;
     left: 15px;
     top: 0px;
     font-style: normal;
@@ -137,21 +138,6 @@ const SpotDescription = styled.div`
     font-size: 14px;
     padding-bottom: 10px;
     display: wrap;
-`;
-
-const SpotClasses = styled.div`
-    display: flex;
-`;
-
-const SpotClass = styled.div`
-    font-size: 12px;
-    width: 60px;
-    background: #854b05;
-    color: white;
-    border-radius: 10px;
-    text-align: center;
-    margin-left: 10px;
-    padding: 2px;
 `;
 
 const OpenTime = styled.div`

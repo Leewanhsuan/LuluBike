@@ -17,8 +17,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationArrow, faLocationPin, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import { fetchNearByStation, fetchAvailableBike } from './Service';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import MarkerItem from './MarkerItem';
+import { stationGetData } from './redux/bikeRoute';
 
 /*此區為樣式設計*/
 const MapWrapper = styled.div`
@@ -78,11 +79,11 @@ const BikeStationAddress = styled.p`
 const BikeStationBikeStatus = styled.p``;
 
 const MapBox = ({ bikeRoute }) => {
-    // const { baseMap } = useMap();
     const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
-    const [stationData, setStationData] = useState([]);
-    const [availableStationData, setAvailableStationData] = useState([]);
+    const dispatch = useDispatch();
+    // const [stationData, setStationData] = useState([]);
     const { StationData } = useSelector((state) => state.bikeRoute);
+    const [availableStationData, setAvailableStationData] = useState([]);
     const [view, setView] = useState({
         longitude: 121.5034981,
         latitude: 25.0107806,
@@ -98,7 +99,7 @@ const MapBox = ({ bikeRoute }) => {
     const [popInfo, setPopInfo] = useState(null);
 
     useEffect(() => {
-        StationData.StationID === ''
+        StationData.length === 0
             ? console.log('empty')
             : setView({
                   longitude: StationData[0].item.StationPosition.PositionLon,
@@ -157,7 +158,7 @@ const MapBox = ({ bikeRoute }) => {
     // 串接附近的自行車租借站位資料
     const getNearByStationData = async (longitude, latitude) => {
         const nearByStation = await fetchNearByStation(longitude, latitude);
-        setStationData(nearByStation);
+        dispatch(stationGetData(nearByStation));
         const availableStation = await fetchAvailableBike(longitude, latitude);
 
         setAvailableStationData(availableStation);
@@ -165,26 +166,26 @@ const MapBox = ({ bikeRoute }) => {
 
     const pins = React.useMemo(
         () =>
-            stationData.map((station, index) => (
+            StationData.map((station, index) => (
                 <Marker
                     key={`station.StationID-${index}`}
                     anchor="bottom"
-                    longitude={station.StationPosition.PositionLon}
-                    latitude={station.StationPosition.PositionLat}>
+                    longitude={station.item.StationPosition.PositionLon}
+                    latitude={station.item.StationPosition.PositionLat}>
                     <MarkerItem
                         onClick={() =>
                             setPopInfo({
-                                StationID: station.StationID,
-                                StationName: station.StationName.Zh_tw,
-                                StationAddress: station.StationAddress.Zh_tw,
-                                PositionLon: station.StationPosition.PositionLon,
-                                PositionLat: station.StationPosition.PositionLat,
+                                StationID: station.item.StationID,
+                                StationName: station.item.StationName.Zh_tw,
+                                StationAddress: station.item.StationAddress.Zh_tw,
+                                PositionLon: station.item.StationPosition.PositionLon,
+                                PositionLat: station.item.StationPosition.PositionLat,
                             })
                         }
                     />
                 </Marker>
             )),
-        [stationData]
+        [StationData]
     );
 
     useEffect(() => {
