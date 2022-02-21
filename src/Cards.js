@@ -168,7 +168,7 @@ const Cards = () => {
                 <DefaultRouteCard>哎呀空空的 🤭 快來選擇自行車道吧</DefaultRouteCard>
             ) : (
                 <RouteCard>
-                    <RouteSubtitle>全長 {selectedRouteData.CyclingLength} 公里</RouteSubtitle>
+                    <RouteSubtitle>全長 {selectedRouteData.CyclingLength} 公尺</RouteSubtitle>
                     <RouteTitle>{selectedRouteData.RouteName}</RouteTitle>
                     <RouteLength>
                         <RouteLengthText>
