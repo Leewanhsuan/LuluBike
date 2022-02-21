@@ -144,6 +144,9 @@ const OpenTime = styled.div`
     width: 90%;
     height: 60px;
     overflow: scroll;
+    @media screen and (max-width: 768px) {
+        height: 40px;
+    }
 `;
 
 const Cards = () => {

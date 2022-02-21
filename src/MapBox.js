@@ -30,8 +30,9 @@ const MapWrapper = styled.div`
     position: fixed;
 
     @media screen and (max-width: 768px) {
+        position: absolute;
         width: 100%;
-        height: 1200px;
+        height: 1000px;
         left: 0;
         top: 0;
     }
@@ -227,10 +228,10 @@ const MapBox = ({ bikeRoute }) => {
                 {...view}
                 onMove={(evt) => setView(evt.viewState)}
                 mapStyle="mapbox://styles/mapbox/streets-v9">
-                <GeolocateControl position="top-left" />
+                {/* <GeolocateControl position="top-left" />
                 <FullscreenControl position="top-left" />
                 <NavigationControl position="top-left" />
-                <ScaleControl />
+                <ScaleControl /> */}
 
                 {pins}
                 {popInfo && (
