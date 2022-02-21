@@ -149,7 +149,7 @@ const MapBox = ({ bikeRoute }) => {
             'line-cap': 'round',
         },
         paint: {
-            'line-color': 'rgba(122, 30, 128, 1)',
+            'line-color': '#131678',
             'line-width': 5,
         },
     };

@@ -91,7 +91,7 @@ const DefaultRouteCard = styled.div`
 const SpotCard = styled.div`
     position: relative;
     width: 100%;
-    height: 300px;
+    height: 330px;
     background: #fff9cc;
     box-shadow: 0px 4px 13px rgba(0, 0, 0, 0.15);
     border-radius: 9px;
@@ -154,6 +154,12 @@ const SpotClass = styled.div`
     padding: 2px;
 `;
 
+const OpenTime = styled.div`
+    width: 90%;
+    height: 60px;
+    overflow: scroll;
+`;
+
 const Cards = () => {
     const [selectedRouteData, setSelectedRouteData] = useState([]);
     const [spotCardData, setSpotCardData] = useState([]);
@@ -210,13 +216,13 @@ const Cards = () => {
                                         />
                                         電話：{spot.item.Phone}
                                     </p>
-                                    <p>
+                                    <OpenTime>
                                         <FontAwesomeIcon
                                             icon={faClock}
                                             style={{ color: '#854b05', paddingRight: '5px' }}
                                         />
                                         開放時間：{spot.item.OpenTime}
-                                    </p>
+                                    </OpenTime>
                                 </SpotDescription>
                             </SpotCard>
                         );
