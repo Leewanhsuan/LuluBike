@@ -2,7 +2,7 @@ Lulu 嚕路 [網站 DEMO](https://www.google.com.tw/)
 
 # 專案介紹
 本專案為「Lulu 嚕路自行車景點平台」前端原始碼，採用前端技術 React Hooks，串接交通部 API 進行開發。
-<img src="https://hsuanxcollection.files.wordpress.com/2022/02/cover-1-1.png" width = "800"  alt="專案封面" align=center />
+<img src="https://hsuanxcollection.files.wordpress.com/2022/02/cover-1-1-1.png" width = "800"  alt="專案封面" align=center />
 
 ## 專案展示
 ### 頁面架構
