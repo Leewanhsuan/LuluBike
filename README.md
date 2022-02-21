@@ -2,13 +2,15 @@ Lulu 嚕路 [網站 DEMO](https://www.google.com.tw/)
 
 # 專案介紹
 本專案為「Lulu 嚕路自行車景點平台」前端原始碼，採用前端技術 React Hooks，串接交通部 API 進行開發。
+<img src="https://hsuanxcollection.files.wordpress.com/2022/02/cover-1-1.png" width = "800"  alt="專案封面" align=center />
 
 ## 專案展示
 ### 頁面架構
-![頁面架構](https://hsuanxcollection.files.wordpress.com/2022/02/lulu-e7b6b2e9a081.png)
+<img src="https://hsuanxcollection.files.wordpress.com/2022/02/lulu-e7b6b2e9a081-1.png" width = "800"  alt="頁面架構" align=center />
 
 ### 網頁功能
 包含定位與附近自行車車站、自行車道、車道周邊自行車站、車道周邊景點等四大功能
+ <img src="https://hsuanxcollection.files.wordpress.com/2022/02/e688aae59c96-2022-02-22-e4b88ae58d881.13.28-1.png" width = "800"  alt="網頁架構" align=center />
 
 [附近車站]
 * 定位與搜尋：可於定位後查詢周邊自行車站與自行車租還狀態
