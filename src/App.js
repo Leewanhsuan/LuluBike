@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css';
 import MapBox from './MapBox';
-
 import Sidebar from './Sidebar';
 
 const App = () => {

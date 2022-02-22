@@ -2,11 +2,6 @@ import styled from 'styled-components';
 import './index.css';
 import * as React from 'react';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import mapboxgl from 'mapbox-gl';
-
-// @ts-ignore
-// eslint-disable-next-line import/no-webpack-loader-syntax
-// mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 import {
     Map,
