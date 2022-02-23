@@ -97,7 +97,7 @@ const BikeStationBikeStatusNumber = styled.span`
 `;
 
 const MapBox = ({ bikeRoute }) => {
-    const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t3MGR4d2RsMHh4ZzJvbm9wb3dzNG9pbCJ9.kpIV-p6GnIpY0QIVGl0Svg';
+    const token = 'pk.eyJ1Ijoic2FuZHlsZWUiLCJhIjoiY2t6emUxMzhzMDh4bjNibmFzcHUyOXQydSJ9.5XzrRrNTbZ5KHShRG7ar2g';
     const dispatch = useDispatch();
     const { StationData } = useSelector((state) => state.bikeRoute);
     const { StationAvailable } = useSelector((state) => state.bikeRoute);
