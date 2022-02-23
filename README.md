@@ -13,7 +13,8 @@ Lulu 嚕路 [網站 DEMO](https://hsuan.info/LuluBike/)
  <img src="https://hsuanxcollection.files.wordpress.com/2022/02/e688aae59c96-2022-02-22-e4b88ae58d881.13.28-1.png" width = "800"  alt="網頁架構" align=center />
 
 [附近車站]
-* 定位與搜尋：可於定位後查詢周邊自行車站與自行車租還狀態
+* 定位：可於定位後可查看自行車道 500 公尺內的公共自行車站
+* 周邊車站：點擊地標可查看車站租還狀況
 
 [自行車道]
 * 搜尋車道：可依照城市、自行車道名稱做車道搜尋
