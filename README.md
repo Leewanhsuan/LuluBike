@@ -39,7 +39,6 @@ Lulu 嚕路 [網站 DEMO](https://hsuan.info/LuluBike/)
 * React Redux： 處理 Global State
 * Style-components： JSX 語法撰寫 CSS 樣式
 * react-map-gl：載入地圖功能（Marker、Popup、Layer）
-* react-spinners：資料載入時畫面 Loading 特效
 * fontawesome：icon 圖示載入
 * ESLint：檢查語法，統一程式撰寫風格
 * Prettier：統一程式碼格式
