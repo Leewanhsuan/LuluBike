@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "./static/css/main.f9745013.css",
+    "main.js": "./static/js/main.fe2639f2.js",
+    "static/js/483.1c4bb5be.chunk.js": "./static/js/483.1c4bb5be.chunk.js",
+    "static/media/lululogo.png": "./static/media/lululogo.a9f53a48037059825c95.png",
+    "index.html": "./index.html",
+    "main.f9745013.css.map": "./static/css/main.f9745013.css.map",
+    "main.fe2639f2.js.map": "./static/js/main.fe2639f2.js.map",
+    "483.1c4bb5be.chunk.js.map": "./static/js/483.1c4bb5be.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f9745013.css",
+    "static/js/main.fe2639f2.js"
+  ]
+}
